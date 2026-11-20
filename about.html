@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About · Ryan Donald</title>
+  <meta name="description" content="About Ryan Donald.">
+
+  <!-- Tab icon: "RD" in a circle (same files as the homepage) -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Lets the CSS know JavaScript is running (so the scroll animations only hide things when they can reveal them) -->
+  <script>document.documentElement.classList.add("js");</script>
+
+  <!-- Fonts: same as the homepage -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Shared styles (colours, fonts, menu, title band, footer) used by every page -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Styles only this page needs -->
+  <style>
+    :root {
+      --radius: 3px;          /* image corner rounding (matches the homepage photos) */
+
+      /* ---------- ABOUT PAGE SETTINGS (tweak these) ---------- */
+      --section-space: clamp(4.5rem, 14vh, 10rem); /* empty space between sections */
+      --parallax-amount: 6%;  /* how far images drift while scrolling. 0% = off */
+      --reveal-time: 1s;      /* how long the fade-up / image reveal takes */
+    }
+
+    /* =====================================================================
+       READING PROGRESS: thin line at the very top that fills as you scroll
+       ===================================================================== */
+    .progress {
+      position: fixed;
+      z-index: 10;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+      transform-origin: 0 50%;
+      transform: scaleX(0);     /* set by the script */
+      pointer-events: none;
+    }
+
+    /* =====================================================================
+       PAGE LAYOUT
+       Content sits on a 12-column grid on wide screens.
+       Below 860px wide, everything stacks in a single column.
+       ===================================================================== */
+    main { flex: 1; }
+
+    .wrap {
+      width: 100%;
+      max-width: 1360px;
+      margin-inline: auto;
+      padding-inline: var(--page-x);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(1rem, 2.5vw, 2rem);
+      row-gap: clamp(2rem, 5vh, 3.5rem);
+    }
+
+    .grid > * { grid-column: 1 / -1; } /* phones: every block spans the full width */
+
+    .section { padding-block: var(--section-space); }
+    .section + .section { padding-top: 0; } /* avoid doubled space between neighbours */
+
+    /* ---------- Text styles ---------- */
+
+    /* Small section label, e.g. "01 — Introduction" */
+    .label {
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* Section heading */
+    .heading {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(2rem, 4.2vw, 3.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      text-wrap: balance;
+    }
+
+    /* Large opening paragraph */
+    .lead {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 3.1vw, 2.6rem);
+      line-height: 1.2;
+      text-wrap: pretty;
+    }
+
+    /* Normal paragraphs */
+    .body {
+      max-width: 60ch;
+      color: var(--text-body);
+      font-size: clamp(1rem, 1.15vw, 1.0625rem);
+      line-height: 1.75;
+    }
+    .body p + p { margin-top: 1.25em; }
+
+    /* =====================================================================
+       IMAGES
+       Each image is a <figure class="media"> with:
+         --ratio  its shape (width / height), e.g. 4 / 5
+         --tone   the placeholder gradient shown until the real photo exists
+       ===================================================================== */
+    .media { --ratio: 4 / 5; }
+
+    .media-frame {
+      position: relative;
+      aspect-ratio: var(--ratio);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #1a1a19;
+    }
+
+    /* The part that drifts while scrolling (parallax). It's slightly bigger than the frame
+       so the drifting never shows an edge. --parallax goes from -1 to 1 (set by the script). */
+    .media-inner {
+      position: absolute;
+      inset: 0;
+      background: var(--tone, linear-gradient(160deg, #2a2a28, #191918));
+      transform: translateY(calc(var(--parallax, 0) * var(--parallax-amount) * -1)) scale(1.14);
+      will-change: transform;
+    }
+
+    .media-inner img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Missing photo: hide the broken-image icon so the gradient shows */
+    .media-inner img.is-missing { opacity: 0; }
+
+    /* Placeholder label (file name + shape), only shown while the photo is missing */
+    .media-label {
+      position: absolute;
+      left: 0.85rem;
+      bottom: 0.75rem;
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 0.75rem;
+      letter-spacing: 0.03em;
+      display: none;
+    }
+    .media-frame:has(img.is-missing) .media-label { display: block; }
+
+    /* Caption under an image */
+    .caption {
+      margin-top: 0.85rem;
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--muted);
+    }
+
+    /* =====================================================================
+       SCROLL ANIMATIONS
+       - .reveal        text fades up when it scrolls into view
+       - .reveal-media  images are uncovered from the bottom up
+       The script adds .is-visible when they come into view.
+       Add style="--delay: 0.15s" to an element to make it start a little later.
+       ===================================================================== */
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition:
+        opacity var(--reveal-time) ease,
+        transform var(--reveal-time) cubic-bezier(0.2, 0.7, 0.2, 1);
+      transition-delay: var(--delay, 0s);
+    }
+
+    .js .reveal-media .media-frame {
+      clip-path: inset(100% 0 0 0);
+      transition: clip-path calc(var(--reveal-time) * 1.3) cubic-bezier(0.65, 0, 0.35, 1);
+      transition-delay: var(--delay, 0s);
+    }
+
+    .js .reveal-media .caption {
+      opacity: 0;
+      transition: opacity var(--reveal-time) ease;
+      transition-delay: calc(var(--delay, 0s) + 0.5s);
+    }
+
+    .js .reveal.is-visible { opacity: 1; transform: none; }
+    .js .reveal-media.is-visible .media-frame { clip-path: inset(0 0 0 0); }
+    .js .reveal-media.is-visible .caption { opacity: 1; }
+
+    /* =====================================================================
+       SECTIONS (wide-screen placement on the 12-column grid)
+       ===================================================================== */
+
+    /* ---------- Full-width image ---------- */
+    .wide .media { --ratio: 4 / 3; }
+    .wide .media-frame { border-radius: 0; max-height: 85vh; }
+    .wide .caption { padding-inline: var(--page-x); }
+
+    /* ---------- Pull quote ---------- */
+    .quote {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(2rem, 4.6vw, 4.25rem);
+      line-height: 1.12;
+      letter-spacing: -0.01em;
+      text-wrap: balance;
+    }
+
+    /* Each word starts dim and lights up as you scroll through the quote */
+    .js .quote .word {
+      color: rgba(241, 239, 234, 0.18);
+      transition: color 0.35s ease;
+    }
+    .js .quote .word.is-lit { color: var(--text); }
+
+    .quote-by {
+      margin-top: 1.5rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* ---------- Two images side by side, the second one set lower ---------- */
+    .pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(0.75rem, 2.5vw, 2rem);
+      align-items: start;
+    }
+    .pair .media:nth-child(2) { margin-top: clamp(3rem, 12vh, 8rem); }
+
+    /* ---------- Contact ---------- */
+    .contact-link {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.6em;
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: 1.1;
+      border-bottom: 1px solid var(--line);
+      transition: border-color 0.3s ease;
+    }
+    .contact-link span { transition: transform 0.3s ease; }
+    .contact-link:hover,
+    .contact-link:focus-visible { border-bottom-color: var(--accent); outline: none; }
+    .contact-link:hover span,
+    .contact-link:focus-visible span { transform: translateX(6px); }
+
+    /* ---------- Small screens: a few touches so the stacked layout still has rhythm ---------- */
+    @media (max-width: 860px) {
+      .bg-media { width: 78%; margin-left: auto; }  /* tall image sits to the right */
+      .intro-media { width: 88%; }
+    }
+
+    /* ---------- Wide screens: place blocks on the 12-column grid ---------- */
+    @media (min-width: 861px) {
+      /* Introduction */
+      .intro .label    { grid-column: 1 / 4; padding-top: 0.9rem; }
+      .intro .lead     { grid-column: 4 / 13; }
+      .intro-media     { grid-column: 1 / 6; margin-top: clamp(2rem, 8vh, 6rem); }
+      .intro-text      { grid-column: 7 / 12; align-self: end; }
+
+      /* Full-width image: wider shape on big screens */
+      .wide .media     { --ratio: 21 / 9; }
+
+      /* Background: tall image on the right spans the heading and the text */
+      .background .label   { grid-column: 1 / 4; grid-row: 1; padding-top: 0.75rem; }
+      .background .heading { grid-column: 4 / 9; grid-row: 1; }
+      .bg-text             { grid-column: 4 / 9; grid-row: 2; }
+      .bg-media            { grid-column: 9 / 13; grid-row: 1 / 3; margin-top: clamp(3rem, 10vh, 7rem); }
+
+      /* Quote */
+      .quote-block     { grid-column: 2 / 12; }
+
+      /* Now: images on the left, text on the right */
+      .now .label      { grid-column: 1 / 4; padding-top: 0.75rem; }
+      .now .heading    { grid-column: 4 / 11; }
+      .pair            { grid-column: 1 / 7; }
+      .now-text        { grid-column: 8 / 12; align-self: center; }
+
+      /* Contact */
+      .contact .label  { grid-column: 1 / 4; padding-top: 1.25rem; }
+      .contact-body    { grid-column: 4 / 13; }
+    }
+
+    /* ---------- People who prefer no animation: everything visible, nothing moves ---------- */
+    @media (prefers-reduced-motion: reduce) {
+      .js .reveal,
+      .js .reveal-media .media-frame,
+      .js .reveal-media .caption {
+        opacity: 1;
+        transform: none;
+        clip-path: none;
+        transition: none;
+      }
+
+      .media-inner { transform: scale(1.14); }   /* no parallax drift */
+      .js .quote .word { color: var(--text); }   /* quote fully lit */
+      .progress { display: none; }
+    }
+  </style>
+  <!-- Shared script (the Projects drop-down in the menu) used by every page -->
+  <script src="site.js" defer></script>
+</head>
+
+<body>
+
+  <!-- Reading progress line (decorative) -->
+  <div class="progress" aria-hidden="true"></div>
+
+  <!-- ============ TOP BAND: menu + page title ============ -->
+  <header class="top-band">
+    <nav class="nav">
+      <a class="nav-logo" href="index.html" aria-label="Ryan Donald, home">RD</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html" aria-current="page">About</a></li>
+        <li class="has-dropdown">
+          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="projects-menu">
+            Projects
+            <svg class="nav-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
+          </button>
+
+          <!-- Projects drop-down. TO ADD A PROJECT: copy one <li> ... </li> block below, paste it
+               after the last one, and change the number, short title, full name and link.
+               Replace href="#" with the project's page once it exists. -->
+          <div class="dropdown" id="projects-menu">
+            <div class="dropdown-panel">
+              <ul class="dropdown-list">
+                <li>
+                  <a class="dropdown-item" href="#">
+                    <span class="dropdown-num">01</span>
+                    <span>
+                      <span class="dropdown-title">Starling Behaviour</span>
+                      <span class="dropdown-desc">Computer Vision for Detecting and Monitoring European Starling Behaviour</span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">
+                    <span class="dropdown-num">02</span>
+                    <span>
+                      <span class="dropdown-title">Corvid Biogeography</span>
+                      <span class="dropdown-desc">Unraveling the Biogeography of Corvids</span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <a class="dropdown-all" href="#">All projects <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero">
+      <h1 class="title" id="title">About</h1>
+      <p class="tagline fade-in">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    </div>
+  </header>
+
+  <!-- ============ CONTENT ============
+       HOW TO ADD YOUR PHOTOS
+       Put them in images/about/ named about-01.jpg ... about-05.jpg.
+       Each image's shape is shown on its placeholder (e.g. "4:5"); photos of a different
+       shape are cropped from the centre to fit.
+       Edit alt="..." (hidden description) and the caption text under each one.
+       To change a placeholder colour, edit --tone on its <figure>. -->
+  <main>
+
+    <!-- ---------- 01 Introduction: big opening line, portrait photo + text ---------- -->
+    <section class="section intro">
+      <div class="wrap grid">
+        <p class="label reveal">01 — Introduction</p>
+
+        <p class="lead reveal" style="--delay: 0.1s;">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          exercitation ullamco laboris.
+        </p>
+
+        <figure class="media intro-media reveal-media" data-parallax
+                style="--ratio: 4 / 5; --tone: linear-gradient(160deg, #4b5560, #1f242a);">
+          <div class="media-frame">
+            <div class="media-inner">
+              <img src="images/about/about-01.jpg" alt="Photo 1 (replace with a short description)"
+                   loading="lazy" onerror="this.classList.add('is-missing')">
+            </div>
+            <span class="media-label">about-01.jpg · 4:5</span>
+          </div>
+          <figcaption class="caption">Lorem ipsum — 2025</figcaption>
+        </figure>
+
+        <div class="body intro-text reveal">
+          <p>
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+            officia deserunt mollit anim id est laborum.
+          </p>
+          <p>
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
+            architecto beatae vitae dicta sunt explicabo.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- Full-width image ---------- -->
+    <section class="section wide">
+      <figure class="media reveal-media" data-parallax
+              style="--tone: linear-gradient(170deg, #5a4a3c, #241d18);">
+        <div class="media-frame">
+          <div class="media-inner">
+            <img src="images/about/about-02.jpg" alt="Photo 2 (replace with a short description)"
+                 loading="lazy" onerror="this.classList.add('is-missing')">
+          </div>
+          <span class="media-label">about-02.jpg · 21:9 (4:3 on phones)</span>
+        </div>
+        <figcaption class="caption">Lorem ipsum dolor — 2024</figcaption>
+      </figure>
+    </section>
+
+    <!-- ---------- 02 Background: heading + text, tall photo on the right ---------- -->
+    <section class="section background">
+      <div class="wrap grid">
+        <p class="label reveal">02 — Background</p>
+
+        <h2 class="heading reveal" style="--delay: 0.1s;">Lorem ipsum dolor sit amet, consectetur.</h2>
+
+        <div class="body bg-text reveal" style="--delay: 0.2s;">
+          <p>
+            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
+            consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro
+            quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
+          </p>
+          <p>
+            Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit
+            laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis autem vel eum iure
+            reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.
+          </p>
+          <p>
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+            voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint
+            occaecati cupiditate non provident.
+          </p>
+        </div>
+
+        <figure class="media bg-media reveal-media" data-parallax
+                style="--ratio: 2 / 3; --tone: linear-gradient(160deg, #3f4d45, #1b221e);">
+          <div class="media-frame">
+            <div class="media-inner">
+              <img src="images/about/about-03.jpg" alt="Photo 3 (replace with a short description)"
+                   loading="lazy" onerror="this.classList.add('is-missing')">
+            </div>
+            <span class="media-label">about-03.jpg · 2:3</span>
+          </div>
+          <figcaption class="caption">Lorem ipsum — 2023</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ---------- Pull quote: words light up as you scroll ---------- -->
+    <section class="section">
+      <div class="wrap grid">
+        <figure class="quote-block reveal">
+          <blockquote class="quote" data-highlight>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua.
+          </blockquote>
+          <figcaption class="quote-by">— Lorem Ipsum</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ---------- 03 Now: two photos on the left, text on the right ---------- -->
+    <section class="section now">
+      <div class="wrap grid">
+        <p class="label reveal">03 — Now</p>
+
+        <h2 class="heading reveal" style="--delay: 0.1s;">Ut enim ad minim veniam, quis nostrud.</h2>
+
+        <div class="pair">
+          <figure class="media reveal-media" data-parallax
+                  style="--ratio: 3 / 4; --tone: linear-gradient(160deg, #5b5148, #26221f);">
+            <div class="media-frame">
+              <div class="media-inner">
+                <img src="images/about/about-04.jpg" alt="Photo 4 (replace with a short description)"
+                     loading="lazy" onerror="this.classList.add('is-missing')">
+              </div>
+              <span class="media-label">about-04.jpg · 3:4</span>
+            </div>
+            <figcaption class="caption">Lorem — 2025</figcaption>
+          </figure>
+
+          <figure class="media reveal-media" data-parallax
+                  style="--ratio: 3 / 4; --tone: linear-gradient(160deg, #464660, #1e1e2a); --delay: 0.15s;">
+            <div class="media-frame">
+              <div class="media-inner">
+                <img src="images/about/about-05.jpg" alt="Photo 5 (replace with a short description)"
+                     loading="lazy" onerror="this.classList.add('is-missing')">
+              </div>
+              <span class="media-label">about-05.jpg · 3:4</span>
+            </div>
+            <figcaption class="caption">Ipsum — 2025</figcaption>
+          </figure>
+        </div>
+
+        <div class="body now-text reveal">
+          <p>
+            Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe
+            eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum
+            rerum hic tenetur a sapiente delectus.
+          </p>
+          <p>
+            Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus
+            id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor
+            repellendus.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- 04 Contact ---------- -->
+    <section class="section contact">
+      <div class="wrap grid">
+        <p class="label reveal">04 — Contact</p>
+
+        <div class="contact-body reveal" style="--delay: 0.1s;">
+          <p class="body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <!-- Replace with your email address (both places) -->
+          <p style="margin-top: 1.5rem;">
+            <a class="contact-link" href="mailto:you@example.com">you@example.com <span aria-hidden="true">&rarr;</span></a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ BOTTOM BAND (same as the homepage) ============ -->
+  <footer class="footer">
+    <p>&copy; <span id="year">2026</span> Ryan Donald</p>
+
+    <!-- Replace the "#" links with your own addresses (same as on the homepage) -->
+    <ul class="footer-links">
+      <li><a href="#">GitHub</a></li>
+      <li><a href="#">LinkedIn</a></li>
+      <li><a href="#">Email</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // ================= Title: letters rise in one after another (same as the homepage) =================
+    const title = document.getElementById("title");
+    const text = title.textContent;
+    // Seconds between letters. 0.1 makes the 5-letter "About" take as long to appear as the
+    // 11-letter "Ryan Donald" on the homepage (which uses 0.04). Smaller = faster.
+    const delayPerLetter = 0.1;
+    title.setAttribute("aria-label", text);
+    title.textContent = "";
+    [...text].forEach((character, index) => {
+      const span = document.createElement("span");
+      span.className = "letter";
+      span.textContent = character;
+      span.setAttribute("aria-hidden", "true");
+      span.style.animationDelay = (index * delayPerLetter) + "s";
+      title.appendChild(span);
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+
+    // ================= Reveal text and images as they scroll into view =================
+    const revealItems = document.querySelectorAll(".reveal, .reveal-media");
+
+    if ("IntersectionObserver" in window && !reduceMotion) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);    // only animate once
+          }
+        });
+      }, { rootMargin: "0px 0px -12% 0px", threshold: 0.1 });
+
+      revealItems.forEach(item => observer.observe(item));
+    } else {
+      revealItems.forEach(item => item.classList.add("is-visible"));
+    }
+
+
+    // ================= Pull quote: wrap each word so it can light up =================
+    const quote = document.querySelector("[data-highlight]");
+    let words = [];
+
+    if (quote) {
+      const quoteWords = quote.textContent.trim().split(/\s+/);
+      quote.textContent = "";
+      quoteWords.forEach((word, i) => {
+        const span = document.createElement("span");
+        span.className = "word";
+        span.textContent = word;
+        quote.appendChild(span);
+        if (i < quoteWords.length - 1) quote.appendChild(document.createTextNode(" "));
+      });
+      words = [...quote.querySelectorAll(".word")];
+    }
+
+
+    // ================= Effects that follow the scroll position =================
+    const progressBar = document.querySelector(".progress");
+    const parallaxItems = reduceMotion ? [] : [...document.querySelectorAll("[data-parallax]")];
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+    let ticking = false;
+
+    function updateOnScroll() {
+      ticking = false;
+      const viewHeight = window.innerHeight;
+
+      // 1. Reading progress line: 0 at the top of the page, 1 at the bottom.
+      const scrollable = document.documentElement.scrollHeight - viewHeight;
+      progressBar.style.transform = "scaleX(" + (scrollable > 0 ? window.scrollY / scrollable : 0) + ")";
+
+      // 2. Parallax: each photo drifts slightly within its frame, so it seems to move
+      //    a little slower than the page (1 = just below the screen, 0 = centred, -1 = just above).
+      parallaxItems.forEach(item => {
+        const box = item.getBoundingClientRect();
+        if (box.bottom < 0 || box.top > viewHeight) return;   // off screen: skip
+        const position = (box.top + box.height / 2 - viewHeight / 2) / (viewHeight / 2 + box.height / 2);
+        item.style.setProperty("--parallax", clamp(position, -1, 1).toFixed(3));
+      });
+
+      // 3. Quote: words light up from the moment its top reaches 85% down the screen
+      //    until its bottom reaches 40% down the screen.
+      if (words.length && !reduceMotion) {
+        const box = quote.getBoundingClientRect();
+        const progress = clamp((viewHeight * 0.85 - box.top) / (viewHeight * 0.45 + box.height), 0, 1);
+        const litCount = Math.round(progress * words.length);
+        words.forEach((word, i) => word.classList.toggle("is-lit", i < litCount));
+      }
+    }
+
+    // Run at most once per frame while scrolling, for smoothness.
+    function requestUpdate() {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(updateOnScroll);
+      }
+    }
+
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    updateOnScroll();
+  </script>
+
+</body>
+</html>

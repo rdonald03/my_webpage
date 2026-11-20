@@ -4,223 +4,559 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ryan Donald</title>
-  <meta name="description" content="Personal portfolio homepage.">
+  <meta name="description" content="Photographs by Ryan Donald.">
 
+  <!-- Tab icon: "RD" in a circle. favicon.svg for modern browsers, favicon.ico as a fallback,
+       apple-touch-icon.png for when someone saves the site to their phone's home screen. -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Fonts: Instrument Serif for the title and captions, Instrument Sans for everything else -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Shared styles (colours, fonts, menu, title band, footer) used by every page -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Styles only this page needs -->
   <style>
-    /* ---------- Colours and basics (change these to restyle the whole page) ---------- */
     :root {
-      --bg: #0a0f1c;          /* main background: very dark blue */
-      --bg-soft: #131c33;     /* lighter blue used in the background glow */
-      --text: #ffffff;
-      --muted: #93a0b8;       /* grey-blue for small text */
-      --line: rgba(255, 255, 255, 0.14);
+      /* ---------- PHOTO STRIP SETTINGS (tweak these) ---------- */
+      --strip-seconds-per-photo: 10; /* speed: seconds for the strip to move along by one photo.
+                                        Bigger = slower. Adding more photos doesn't change the speed. */
+      --photo-width: clamp(120px, min(24vw, 34vh), 340px);
+                              /* width of each photo; height is automatically 1.5x (2:3 shape).
+                                 The min(24vw, 34vh) part shrinks photos on small or short screens. */
+      --photo-gap: clamp(14px, 2vw, 28px); /* space between photos */
+      --photo-radius: 3px;    /* corner rounding: 0 = sharp corners */
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(900px 500px at 50% -10%, var(--bg-soft), transparent 70%),
-        var(--bg);
+    /* ---------- PHOTO STRIP SETTINGS for tall screens (vertical monitors, phones held upright) ----------
+       Bigger photos so the strip fills the extra height, moving a little slower. */
+    @media (orientation: portrait) {
+      :root {
+        --photo-width: clamp(150px, min(60vw, 36vh), 560px);
+        --strip-seconds-per-photo: 16;
+      }
     }
 
-    a { color: inherit; text-decoration: none; }
-
-    /* ---------- Top menu ---------- */
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 1.25rem clamp(1.25rem, 5vw, 3rem);
-      border-bottom: 1px solid var(--line);
+    /* ---------- Title band: more compact than other pages on wide screens ----------
+       (On tall screens it uses the shared settings from styles.css, same as the About page.) */
+    @media (orientation: landscape) {
+      .hero  { padding: clamp(0.75rem, 3vh, 2.25rem) var(--page-x) clamp(1rem, 3vh, 2rem); }
+      .title { font-size: clamp(2.5rem, min(7vw, 8.5vh), 5.5rem); }
     }
 
-    .nav-logo {
-      font-weight: 700;
-      letter-spacing: 0.12em;
-    }
+    /* The buttons and the photo strip fade in just after the tagline */
+    .buttons.fade-in { animation-delay: 0.75s; }
+    .gallery.fade-in { animation-delay: 0.8s; }
 
-    .nav-links {
-      display: flex;
-      gap: clamp(1rem, 3vw, 2rem);
-      list-style: none;
-      font-size: 0.95rem;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      padding-bottom: 4px;
-      border-bottom: 1px solid transparent;
-      transition: color 0.2s ease, border-color 0.2s ease;
-    }
-
-    .nav-links a:hover,
-    .nav-links a:focus-visible,
-    .nav-links a[aria-current="page"] {
-      color: var(--text);
-      border-bottom-color: var(--text);
-    }
-
-    /* ---------- Hero: title, tagline, buttons ---------- */
-    .hero {
-      flex: 1;
-      text-align: center;
-      padding: clamp(3rem, 14vh, 9rem) 1.25rem 4rem;
-    }
-
-    .title {
-      font-size: clamp(3rem, 11vw, 7.5rem);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-    }
-
-    /* Each letter of the title is wrapped in a span by the script below,
-       then drops in one after another. */
-    .title .letter {
-      display: inline-block;
-      white-space: pre;
-      opacity: 0;
-      animation: trickle 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
-    }
-
-    @keyframes trickle {
-      from { opacity: 0; transform: translateY(-0.5em); filter: blur(6px); }
-      to   { opacity: 1; transform: translateY(0);      filter: blur(0); }
-    }
-
-    .tagline {
-      margin-top: 1.25rem;
-      color: var(--muted);
-      font-size: clamp(1rem, 2.2vw, 1.25rem);
-    }
-
+    /* ---------- Buttons (currently commented out in the HTML; kept for when you restore them) ----------
+       Thin outline; on hover they fill with the accent colour. */
     .buttons {
-      margin-top: 3rem;
+      margin-top: 2rem;
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.25rem;
+      gap: 1rem;
     }
 
-    /* The tagline and buttons fade in after the title has finished */
-    .fade-in {
-      opacity: 0;
-      animation: fade-up 0.7s ease forwards;
-      animation-delay: 1.1s;
-    }
-    .buttons.fade-in { animation-delay: 1.35s; }
-
-    @keyframes fade-up {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ---------- Glow buttons ----------
-       Each button sets its own --glow colour in the HTML.
-       On hover it fills with that colour and glows outward. */
     .btn {
-      --glow: #38bdf8;
-      min-width: 11rem;
-      padding: 0.95rem 1.75rem;
+      padding: 0.8rem 1.5rem;
       border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.04);
+      border-radius: 2px;
       color: var(--text);
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      transition:
-        background-color 0.3s ease,
-        border-color 0.3s ease,
-        color 0.3s ease,
-        box-shadow 0.4s ease,
-        transform 0.2s ease;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
     }
 
     .btn:hover,
     .btn:focus-visible {
-      background: var(--glow);
-      border-color: var(--glow);
-      color: #0a0f1c;
-      box-shadow:
-        0 0 16px 2px var(--glow),
-        0 0 56px 8px color-mix(in srgb, var(--glow) 40%, transparent);
-      transform: translateY(-2px);
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg);
       outline: none;
     }
 
-    .btn:active { transform: translateY(0); }
+    /* =====================================================================
+       MIDDLE AREA: infinitely looping photo strip
+       The script moves it, repeats the photos as often as needed to fill the
+       screen, and lets you drag it with a mouse or finger.
+       ===================================================================== */
+    .gallery {
+      flex: 1;                  /* takes up all the space between the two bands */
+      display: flex;
+      align-items: center;      /* vertically centres the strip */
+      justify-content: center;
+      min-width: 0;
+    }
 
-    /* ---------- Footer ---------- */
-    .footer {
-      padding: 1.5rem;
-      text-align: center;
+    /* The visible window of the strip */
+    .strip {
+      width: 100%;
+      min-width: 0;             /* lets it shrink to the screen width instead of the full row's width */
+      overflow: hidden;         /* fallback for older browsers */
+      overflow: clip;           /* "clip" (unlike hidden) can't be scrolled by focusing a photo */
+      padding-block: clamp(1.25rem, 3.5vh, 2.5rem); /* room for the hover lift and focus outline */
+
+      /* Soft fade at the left and right edges */
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+              mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+
+      /* Dragging */
+      cursor: grab;
+      touch-action: pan-y;      /* phones: up/down swipes still scroll the page, sideways swipes drag the strip */
+      -webkit-user-select: none;
+              user-select: none;
+    }
+
+    .strip.is-dragging,
+    .strip.is-dragging .photo { cursor: grabbing; }
+
+    /* The moving row (the script sets its position) */
+    .strip-track {
+      display: flex;
+      width: max-content;
+      will-change: transform;
+    }
+
+    /* One set of photos. padding-right = one gap, so sets join up seamlessly */
+    .strip-set {
+      display: flex;
+      gap: var(--photo-gap);
+      padding-right: var(--photo-gap);
+    }
+
+    /* A single photo tile. The plain dark-grey background is the placeholder
+       shown until the photo file exists. */
+    .photo {
+      position: relative;
+      flex: none;
+      width: var(--photo-width);
+      aspect-ratio: 2 / 3;
+      border: 0;
+      padding: 0;
+      border-radius: var(--photo-radius);
+      overflow: hidden;
+      cursor: zoom-in;
+      background: linear-gradient(160deg, #262624, #191918);
+      transition:
+        transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
+        filter 0.4s ease;
+    }
+
+    .photo img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;        /* fills the 2:3 tile without stretching */
+      pointer-events: none;     /* stops the browser's own "drag the image" behaviour */
+    }
+
+    /* If a photo file is missing, hide the broken-image icon and show the placeholder instead */
+    .photo img.is-missing,
+    .lightbox-img.is-missing { opacity: 0; }
+
+    .photo:focus-visible {
+      outline: 1px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    /* Only on devices with a real mouse (avoids touch screens getting "stuck"):
+       the photo under the mouse lifts slightly, and the others dim so it stands out.
+       (The strip also pauses while the mouse is over it; that's handled by the script.) */
+    @media (hover: hover) {
+      .photo:hover { transform: translateY(-4px); }
+
+      .strip:has(.photo:hover) .photo:not(:hover) { filter: brightness(0.45) saturate(0.7); }
+    }
+
+    /* =====================================================================
+       ENLARGED VIEW (lightbox)
+       ===================================================================== */
+    body:has(.lightbox[open]) { overflow: hidden; } /* stop the page scrolling behind it */
+
+    /* The dialog covers the whole screen; the photo sits centred inside it */
+    .lightbox {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font-family: var(--font-sans);
+      overflow: hidden;
+    }
+
+    /* Dark, semi-transparent backdrop */
+    .lightbox::backdrop {
+      background: rgba(8, 8, 7, 0.94);
+    }
+
+    .lightbox-stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    /* Photo + the caption line underneath it.
+       The photo is up to 85% of the screen height, keeps its 2:3 shape,
+       and never gets wider than the screen minus room for the side arrows. */
+    .lightbox-figure {
+      width: min(calc(85vh * 2 / 3), calc((100vh - 7rem) * 2 / 3), calc(100vw - 9rem));
+      width: min(calc(85dvh * 2 / 3), calc((100dvh - 7rem) * 2 / 3), calc(100vw - 9rem));
+    }
+
+    .lightbox-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      border-radius: var(--photo-radius);
+      overflow: hidden;
+      background: linear-gradient(160deg, #262624, #191918);
+    }
+
+    .lightbox-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Caption on the left, "03 / 06" on the right */
+    .lightbox-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 0.85rem;
+    }
+
+    .lightbox-caption {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.15rem;
+      line-height: 1.2;
+    }
+
+    .lightbox-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      flex: none;
       color: var(--muted);
       font-size: 0.85rem;
-      border-top: 1px solid var(--line);
+      font-variant-numeric: tabular-nums; /* numbers don't jiggle as they change */
     }
 
-    /* ---------- Small screens ---------- */
+    /* Close, previous and next: plain buttons */
+    .lightbox-btn {
+      padding: 0.5rem 0.6rem;   /* bigger click area than the text itself */
+      border: 0;
+      background: none;
+      color: var(--muted);
+      font: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .lightbox-btn:hover,
+    .lightbox-btn:focus-visible {
+      color: var(--accent);
+      outline: none;
+    }
+
+    .lightbox-btn:focus-visible { text-decoration: underline; text-underline-offset: 4px; }
+
+    .lightbox-close {
+      position: absolute;
+      z-index: 1;               /* above the stage so it can be clicked */
+      top: 0.75rem;
+      right: calc(var(--page-x) - 0.6rem);
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* Previous / next arrows at the left and right edges of the screen.
+       The clickable area is taller than the arrow itself, so it's easy to hit. */
+    .lightbox-arrow {
+      position: absolute;
+      z-index: 1;               /* above the stage so they can be clicked */
+      top: 50%;
+      transform: translateY(-50%);
+      display: grid;
+      place-items: center;
+      width: 4rem;
+      height: 8rem;
+      padding: 0;
+    }
+
+    .lightbox-arrow svg {
+      width: 2.25rem;
+      height: 2.25rem;
+      transition: transform 0.25s ease;
+    }
+
+    .lightbox-prev { left: calc(var(--page-x) - 1.25rem); }
+    .lightbox-next { right: calc(var(--page-x) - 1.25rem); }
+
+    /* On hover the arrow turns white and nudges outward */
+    .lightbox-prev:hover svg { transform: translateX(-3px); }
+    .lightbox-next:hover svg { transform: translateX(3px); }
+
+    .lightbox-arrow:focus-visible {
+      outline: 1px solid var(--accent);
+      outline-offset: -0.75rem;
+    }
+
+    /* Short, subtle zoom + fade in when opening (and when switching photos) */
+    .lightbox[open] .lightbox-frame {
+      animation: lightbox-zoom 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+    .lightbox[open]::backdrop {
+      animation: lightbox-fade 0.25s ease;
+    }
+
+    @keyframes lightbox-zoom {
+      from { opacity: 0; transform: scale(0.97); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes lightbox-fade {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ---------- Phones ---------- */
     @media (max-width: 520px) {
-      .nav { flex-direction: column; }
-      .btn { width: 100%; max-width: 20rem; }
+      /* Enlarged view: the photo uses nearly the full width, and the arrows sit
+         over its edges on small dark circles so they stay visible on any photo */
+      .lightbox-figure {
+        width: min(calc(85vh * 2 / 3), calc((100vh - 7rem) * 2 / 3), calc(100vw - 2rem));
+        width: min(calc(85dvh * 2 / 3), calc((100dvh - 7rem) * 2 / 3), calc(100vw - 2rem));
+      }
+      .lightbox-arrow {
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 50%;
+        background: rgba(13, 13, 12, 0.55);
+        color: var(--text);
+      }
+      .lightbox-arrow svg { width: 1.25rem; height: 1.25rem; }
+      .lightbox-prev { left: 0.5rem; }
+      .lightbox-next { right: 0.5rem; }
     }
 
-    /* ---------- People who prefer no animation see everything instantly ---------- */
+    /* ---------- People who prefer no animation ----------
+       The strip doesn't move by itself (it can still be dragged), and nothing zooms or lifts. */
     @media (prefers-reduced-motion: reduce) {
-      .title .letter,
-      .fade-in {
-        animation: none;
-        opacity: 1;
-      }
       .btn { transition: none; }
+
+      .photo { transition: none; }
+      .photo:hover { transform: none; }
+
+      .lightbox[open] .lightbox-frame,
+      .lightbox[open]::backdrop { animation: none; }
+      .lightbox-btn,
+      .lightbox-arrow svg { transition: none; }
+      .lightbox-prev:hover svg,
+      .lightbox-next:hover svg { transform: none; }
     }
   </style>
+  <!-- Shared script (the Projects drop-down in the menu) used by every page -->
+  <script src="site.js" defer></script>
 </head>
 
 <body>
 
-  <!-- Top menu: change the names and links whenever you like -->
-  <nav class="nav">
-    <a class="nav-logo" href="index.html">LI</a>
-    <ul class="nav-links">
-      <li><a href="index.html" aria-current="page">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Projects</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </nav>
+  <!-- ============ 1. TOP BAND: menu, title, tagline ============ -->
+  <header class="top-band">
 
-  <main class="hero">
-    <!-- Change the title text here; the animation adapts automatically -->
-    <h1 class="title" id="title">Ryan Donald</h1>
+    <!-- Top menu: change the names and links whenever you like -->
+    <nav class="nav">
+      <a class="nav-logo" href="index.html" aria-label="Ryan Donald, home">RD</a>
+      <ul class="nav-links">
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li class="has-dropdown">
+          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="projects-menu">
+            Projects
+            <svg class="nav-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
+          </button>
 
-    <p class="tagline fade-in">Dolor sit amet, consectetur adipiscing elit.</p>
+          <!-- Projects drop-down. TO ADD A PROJECT: copy one <li> ... </li> block below, paste it
+               after the last one, and change the number, short title, full name and link.
+               Replace href="#" with the project's page once it exists. -->
+          <div class="dropdown" id="projects-menu">
+            <div class="dropdown-panel">
+              <ul class="dropdown-list">
+                <li>
+                  <a class="dropdown-item" href="#">
+                    <span class="dropdown-num">01</span>
+                    <span>
+                      <span class="dropdown-title">Starling Behaviour</span>
+                      <span class="dropdown-desc">Computer Vision for Detecting and Monitoring European Starling Behaviour</span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">
+                    <span class="dropdown-num">02</span>
+                    <span>
+                      <span class="dropdown-title">Corvid Biogeography</span>
+                      <span class="dropdown-desc">Unraveling the Biogeography of Corvids</span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <a class="dropdown-all" href="#">All projects <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
 
-    <!-- Each button has its own glow colour: edit the --glow value to change it -->
-    <div class="buttons fade-in">
-      <a class="btn" href="#" style="--glow: #38bdf8;">Button One</a>
-      <a class="btn" href="#" style="--glow: #a78bfa;">Button Two</a>
-      <a class="btn" href="#" style="--glow: #34d399;">Button Three</a>
+    <div class="hero">
+      <!-- Change the title text here; the animation adapts automatically -->
+      <h1 class="title" id="title">Ryan Donald</h1>
+
+      <!-- Tagline: a first draft, reword it in your own voice -->
+      <p class="tagline fade-in">Photographs from the places I've been.</p>
+
+      <!-- To bring the buttons back, delete the "BUTTONS — uncomment to restore" line
+           and the "END BUTTONS" line below. -->
+      <!-- BUTTONS — uncomment to restore
+      <div class="buttons fade-in">
+        <a class="btn" href="#">Button One</a>
+        <a class="btn" href="#">Button Two</a>
+        <a class="btn" href="#">Button Three</a>
+      </div>
+      END BUTTONS -->
+    </div>
+  </header>
+
+  <!-- ============ 2. MIDDLE AREA: looping photo strip ============
+       HOW TO ADD YOUR PHOTOS
+       - Small versions (for the strip):  images/thumbs/photo-01.jpg, photo-02.jpg, ...
+       - Large versions (enlarged view):  images/full/photo-01.jpg,   photo-02.jpg, ...
+       - alt="..."          describes the photo for screen readers (not shown on the page).
+       - data-caption="..." is the caption shown under the enlarged photo, e.g. "Niseko, Japan — 2025".
+                            Leave it empty (data-caption="") for no caption.
+       Until a file exists, a plain grey placeholder shows instead.
+
+       TO ADD MORE PHOTOS: copy one whole <button class="photo"> ... </button> block, paste it
+       after the last one, and change the three file names/numbers in it. That's all: the strip,
+       the enlarged view and the "03 / 06" counter adapt automatically to any number of photos.
+       Only edit the photos below: the script makes the looping copies itself. -->
+  <main class="gallery fade-in">
+    <div class="strip" id="strip" role="region" aria-label="Photo gallery">
+      <div class="strip-track">
+        <div class="strip-set">
+
+          <button class="photo" type="button" data-full="images/full/photo-01.jpg"
+                  data-caption="Place — Year">
+            <img src="images/thumbs/photo-01.jpg" alt="Swag photo king of photos"
+                 width="400" height="600" loading="lazy" onerror="this.classList.add('is-missing')">
+          </button>
+
+          <button class="photo" type="button" data-full="images/full/photo-02.jpg"
+                  data-caption="Place — Year">
+            <img src="images/thumbs/photo-02.jpg" alt="Photo 2 (replace with a short description)"
+                 width="400" height="600" loading="lazy" onerror="this.classList.add('is-missing')">
+          </button>
+
+          <button class="photo" type="button" data-full="images/full/photo-03.jpg"
+                  data-caption="Place — Year">
+            <img src="images/thumbs/photo-03.jpg" alt="Photo 3 (replace with a short description)"
+                 width="400" height="600" loading="lazy" onerror="this.classList.add('is-missing')">
+          </button>
+
+          <button class="photo" type="button" data-full="images/full/photo-04.jpg"
+                  data-caption="Place — Year">
+            <img src="images/thumbs/photo-04.jpg" alt="Photo 4 (replace with a short description)"
+                 width="400" height="600" loading="lazy" onerror="this.classList.add('is-missing')">
+          </button>
+
+          <button class="photo" type="button" data-full="images/full/photo-05.jpg"
+                  data-caption="Place — Year">
+            <img src="images/thumbs/photo-05.jpg" alt="Photo 5 (replace with a short description)"
+                 width="400" height="600" loading="lazy" onerror="this.classList.add('is-missing')">
+          </button>
+
+          <button class="photo" type="button" data-full="images/full/photo-06.jpg"
+                  data-caption="Place — Year">
+            <img src="images/thumbs/photo-06.jpg" alt="Photo 6 (replace with a short description)"
+                 width="400" height="600" loading="lazy" onerror="this.classList.add('is-missing')">
+          </button>
+
+        </div>
+        <!-- The script adds copies of the set here (hidden from screen readers) for the seamless loop -->
+      </div>
     </div>
   </main>
 
+  <!-- ============ Enlarged view (hidden until a photo is clicked) ============ -->
+  <dialog class="lightbox" id="lightbox" aria-label="Enlarged photo">
+    <button class="lightbox-btn lightbox-close" type="button" aria-label="Close">Close&nbsp;&times;</button>
+
+    <!-- Previous / next arrows at the sides of the screen -->
+    <button class="lightbox-btn lightbox-arrow lightbox-prev" type="button" aria-label="Previous photo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"/></svg>
+    </button>
+    <button class="lightbox-btn lightbox-arrow lightbox-next" type="button" aria-label="Next photo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4.5 16.5 12 9 19.5"/></svg>
+    </button>
+
+    <div class="lightbox-stage">
+      <figure class="lightbox-figure">
+        <div class="lightbox-frame">
+          <img class="lightbox-img" alt="">
+        </div>
+        <figcaption class="lightbox-meta">
+          <span class="lightbox-caption"></span>
+          <span class="lightbox-nav">
+            <span class="lightbox-count" aria-hidden="true"></span>
+          </span>
+        </figcaption>
+      </figure>
+      <!-- Announces "Photo 3 of 6: ..." to screen readers when the photo changes -->
+      <p class="lightbox-label sr-only" aria-live="polite"></p>
+    </div>
+  </dialog>
+
+  <!-- ============ 3. BOTTOM BAND: copyright + links ============ -->
   <footer class="footer">
-    &copy; <span id="year">2026</span> Lorem Ipsum
+    <p>&copy; <span id="year">2026</span> Ryan Donald</p>
+
+    <!-- Replace the "#" links with your own addresses, e.g.
+         https://github.com/your-username
+         https://www.linkedin.com/in/your-profile
+         mailto:you@example.com
+         (Optional: add target="_blank" rel="noopener" to open GitHub/LinkedIn in a new tab.) -->
+    <ul class="footer-links">
+      <li><a href="#">GitHub</a></li>
+      <li><a href="#">LinkedIn</a></li>
+      <li><a href="#">Email</a></li>
+    </ul>
   </footer>
 
   <script>
-    // Split the title into letters so each one can "trickle in" in turn.
+    // ================= Title: split into letters so each one can rise in =================
     const title = document.getElementById("title");
     const text = title.textContent;
-    const delayPerLetter = 0.08; // seconds between letters
+    const delayPerLetter = 0.04; // seconds between letters
 
     title.setAttribute("aria-label", text); // screen readers still read it as one phrase
     title.textContent = "";
@@ -236,6 +572,247 @@
 
     // Keep the footer year current.
     document.getElementById("year").textContent = new Date().getFullYear();
+
+
+    // ================= Photo strip: setup =================
+    const strip = document.getElementById("strip");
+    const track = strip.querySelector(".strip-track");
+    const originalSet = track.querySelector(".strip-set");
+    const photos = [...originalSet.querySelectorAll(".photo")]; // the original photos, in order
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+    // Number each photo so the copies know which original they match.
+    photos.forEach((photo, i) => { photo.dataset.index = i; });
+
+    // Add one copy of the set for the seamless loop. Copies are hidden from screen readers
+    // and skipped by the Tab key, but can still be clicked.
+    function addCopy() {
+      const copy = originalSet.cloneNode(true);
+      copy.setAttribute("aria-hidden", "true");
+      copy.querySelectorAll(".photo").forEach(photo => { photo.tabIndex = -1; });
+      track.appendChild(copy);
+    }
+
+    let setWidth = 0;    // width of one set of photos, in pixels
+    let autoSpeed = 0;   // automatic sliding speed, in pixels per second
+    let offset = 0;      // how far the row has moved left (always between 0 and setWidth)
+
+    // Measure the photos and make sure there are enough copies to fill the strip.
+    // Runs at the start and whenever the window size changes.
+    function measure() {
+      const oldSetWidth = setWidth;
+      setWidth = originalSet.getBoundingClientRect().width;
+      if (!setWidth) return;
+
+      while (track.children.length < Math.ceil(strip.clientWidth / setWidth) + 1) addCopy();
+
+      const secondsPerPhoto = parseFloat(getComputedStyle(strip).getPropertyValue("--strip-seconds-per-photo")) || 10;
+      autoSpeed = setWidth / photos.length / secondsPerPhoto;
+
+      if (oldSetWidth) offset = offset / oldSetWidth * setWidth; // keep the same photos in view
+    }
+
+    measure();
+    new ResizeObserver(measure).observe(strip);
+
+
+    // ================= Photo strip: when it should stand still =================
+    let hovering = false;       // mouse is over the strip
+    let keyboardFocus = false;  // a photo has keyboard focus
+    let lightboxOpen = false;   // the enlarged view is open
+    let dragging = false;       // a mouse button / finger is down on the strip
+
+    const isPaused = () => hovering || keyboardFocus || lightboxOpen || dragging || reduceMotion.matches;
+
+    strip.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") hovering = true; });
+    strip.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") hovering = false; });
+
+    // Keyboard users: when Tab reaches a photo that's off screen, bring it into view.
+    strip.addEventListener("focusin", e => {
+      const photo = e.target.closest(".photo");
+      keyboardFocus = Boolean(photo && photo.matches(":focus-visible"));
+      if (!keyboardFocus) return;
+
+      const stripBox = strip.getBoundingClientRect();
+      const box = photo.getBoundingClientRect();
+      const edge = stripBox.width * 0.12; // the faded edges
+      if (box.left < stripBox.left + edge || box.right > stripBox.right - edge) {
+        const positionInSet = photo.offsetLeft - originalSet.offsetLeft;
+        offset = Math.max(0, positionInSet - (strip.clientWidth - photo.offsetWidth) / 2);
+        velocity = 0;
+      }
+    });
+    strip.addEventListener("focusout", () => { keyboardFocus = false; });
+
+
+    // ================= Photo strip: dragging with a mouse or finger =================
+    let dragMoved = false;      // true once the pointer has moved far enough to count as a drag
+    let startX = 0;             // where the drag started
+    let lastX = 0;              // pointer position at the last move
+    let lastMoveTime = 0;
+    let velocity = 0;           // pixels per second; keeps the strip gliding briefly after a flick
+    let suppressClick = false;  // stops the click at the end of a drag from opening the photo
+
+    strip.addEventListener("pointerdown", e => {
+      if (e.pointerType === "mouse" && e.button !== 0) return; // left mouse button only
+      dragging = true;
+      dragMoved = false;
+      startX = lastX = e.clientX;
+      lastMoveTime = e.timeStamp;
+      suppressClick = Math.abs(velocity) > 150; // tapping a gliding strip just stops it
+      velocity = 0;
+    });
+
+    strip.addEventListener("pointermove", e => {
+      if (!dragging) return;
+
+      if (!dragMoved) {
+        if (Math.abs(e.clientX - startX) < 6) return; // small wobble during a click: ignore
+        dragMoved = true;
+        strip.classList.add("is-dragging");
+        try { strip.setPointerCapture(e.pointerId); } catch (err) {} // keep following even if the pointer leaves the strip
+      }
+
+      const dx = e.clientX - lastX;
+      const dt = e.timeStamp - lastMoveTime;
+      offset -= dx;
+      if (dt > 0) velocity = 0.8 * (-dx / dt * 1000) + 0.2 * velocity; // smoothed speed of the drag
+      lastX = e.clientX;
+      lastMoveTime = e.timeStamp;
+    });
+
+    function endDrag(e) {
+      if (!dragging) return;
+      dragging = false;
+
+      if (dragMoved) {
+        strip.classList.remove("is-dragging");
+        suppressClick = true;
+        // No glide if the pointer was held still before letting go, or if motion is reduced.
+        if (e.timeStamp - lastMoveTime > 80 || reduceMotion.matches) velocity = 0;
+        velocity = clamp(velocity, -3000, 3000);
+      } else {
+        velocity = 0;
+      }
+      setTimeout(() => { suppressClick = false; }, 0);
+    }
+
+    strip.addEventListener("pointerup", endDrag);
+    strip.addEventListener("pointercancel", endDrag);
+    strip.addEventListener("dragstart", e => e.preventDefault());
+
+
+    // ================= Photo strip: movement, once per screen refresh =================
+    let lastTime = 0;
+
+    function tick(now) {
+      const dt = lastTime ? Math.min((now - lastTime) / 1000, 0.05) : 0; // seconds since last frame
+      lastTime = now;
+
+      if (setWidth && !dragging) {
+        if (velocity) {                          // glide after a flick, slowing down smoothly
+          offset += velocity * dt;
+          velocity *= Math.exp(-4 * dt);
+          if (Math.abs(velocity) < 8) velocity = 0;
+        }
+        if (!isPaused()) offset += autoSpeed * dt; // the normal slow slide
+      }
+
+      if (setWidth) {
+        // Wrap around: moving one whole set looks identical, so the loop never jumps.
+        offset = ((offset % setWidth) + setWidth) % setWidth;
+        track.style.transform = "translate3d(" + (-offset) + "px, 0, 0)";
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+
+    // Clicking (or pressing Enter on) any photo opens the matching original.
+    track.addEventListener("click", event => {
+      if (suppressClick) return;
+      const photo = event.target.closest(".photo");
+      if (photo) openLightbox(Number(photo.dataset.index));
+    });
+
+
+    // ================= Enlarged view (lightbox) =================
+    const lightbox = document.getElementById("lightbox");
+    const frame = lightbox.querySelector(".lightbox-frame");
+    const bigImg = lightbox.querySelector(".lightbox-img");
+    const captionText = lightbox.querySelector(".lightbox-caption");
+    const countText = lightbox.querySelector(".lightbox-count");
+    const labelText = lightbox.querySelector(".lightbox-label");
+    let current = 0; // index of the photo being shown
+
+    const twoDigits = n => String(n).padStart(2, "0"); // 3 -> "03"
+
+    function showPhoto(index) {
+      current = (index + photos.length) % photos.length; // wrap around at both ends
+      const photo = photos[current];
+      const thumb = photo.querySelector("img");
+      const caption = photo.dataset.caption || "";
+
+      // Load the large image; if it's missing, fall back to the thumbnail, then to the placeholder.
+      bigImg.classList.remove("is-missing");
+      bigImg.alt = thumb.alt;
+      bigImg.dataset.fallback = thumb.getAttribute("src");
+      bigImg.src = photo.dataset.full;
+
+      captionText.textContent = caption;
+      countText.textContent = twoDigits(current + 1) + " / " + twoDigits(photos.length);
+      labelText.textContent = "Photo " + (current + 1) + " of " + photos.length + ": " + thumb.alt;
+
+      // Replay the zoom-in animation for each new photo.
+      frame.style.animation = "none";
+      void frame.offsetWidth;
+      frame.style.animation = "";
+    }
+
+    bigImg.addEventListener("error", () => {
+      const fallback = bigImg.dataset.fallback;
+      if (fallback && bigImg.getAttribute("src") !== fallback) {
+        bigImg.src = fallback;                 // try the thumbnail instead
+      } else {
+        bigImg.classList.add("is-missing");    // show the grey placeholder
+      }
+    });
+
+    function openLightbox(index) {
+      showPhoto(index);
+      lightboxOpen = true;                     // keep the strip still while open
+      lightbox.showModal();
+    }
+
+    function closeLightbox() {
+      lightbox.close();
+    }
+
+    // Runs however the view is closed (button, backdrop, or Escape).
+    lightbox.addEventListener("close", () => {
+      lightboxOpen = false;
+      // Return focus to the photo that was on screen (the original, not a hidden copy).
+      photos[current].focus({ preventScroll: true });
+    });
+
+    lightbox.querySelector(".lightbox-close").addEventListener("click", closeLightbox);
+    lightbox.querySelector(".lightbox-prev").addEventListener("click", () => showPhoto(current - 1));
+    lightbox.querySelector(".lightbox-next").addEventListener("click", () => showPhoto(current + 1));
+
+    // Clicking the dark area around the photo closes it.
+    lightbox.addEventListener("click", event => {
+      if (event.target === lightbox || event.target.classList.contains("lightbox-stage")) {
+        closeLightbox();
+      }
+    });
+
+    // Arrow keys move between photos. (Escape is handled by the browser and closes the view.)
+    lightbox.addEventListener("keydown", event => {
+      if (event.key === "ArrowLeft")  { event.preventDefault(); showPhoto(current - 1); }
+      if (event.key === "ArrowRight") { event.preventDefault(); showPhoto(current + 1); }
+    });
   </script>
 
 </body>

@@ -1,0 +1,368 @@
+/* =========================================================================
+   SHARED STYLES — used by every page (index.html, about.html, ...)
+   Change something here and it changes on all pages.
+   Styles that only one page needs live in that page's own <style> block.
+   ========================================================================= */
+
+/* ---------- Colours, fonts and spacing ---------- */
+:root {
+  --bg: #0d0d0c;          /* main background: near-black, very slightly warm */
+  --band: #131312;        /* top and bottom bands: a touch lighter than the background */
+  --text: #f1efea;        /* headings and main text: soft white */
+  --text-body: #c9c6bf;   /* paragraph text: a little softer, easier to read in long blocks */
+  --muted: #8c8a84;       /* grey for small text */
+  --line: rgba(255, 255, 255, 0.09); /* thin dividing lines */
+  --accent: #ffffff;      /* accent: hover states, active link, focus outlines */
+
+  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-sans: "Instrument Sans", "Segoe UI", system-ui, -apple-system, Helvetica, Arial, sans-serif;
+
+  --page-x: clamp(1.25rem, 5vw, 3rem); /* left/right page margin, shared by menu, title and footer */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Pages are a column: top band, content, bottom band.
+   min-height keeps the footer at the bottom of the screen on short pages. */
+body {
+  min-height: 100vh;
+  min-height: 100dvh;     /* "dynamic" height: ignores mobile browser toolbars where supported */
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-sans);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--accent); color: var(--bg); }
+
+/* Hides text visually but keeps it for screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* =========================================================================
+   TOP BAND: menu + page title + tagline
+   ========================================================================= */
+.top-band {
+  flex: none;
+  background: var(--band);
+  border-bottom: 1px solid var(--line);
+}
+
+/* ---------- Menu ---------- */
+.nav {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem var(--page-x);
+}
+
+.nav-logo {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.nav-links {
+  position: relative;       /* the Projects drop-down lines up with the right edge of the menu */
+  display: flex;
+  gap: clamp(1rem, 3vw, 2rem);
+  list-style: none;
+  font-size: 0.9rem;
+}
+
+/* Menu links and the "Projects" button look the same */
+.nav-links > li > a,
+.nav-toggle {
+  color: var(--muted);
+  padding-bottom: 3px;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.nav-links > li > a:hover,
+.nav-links > li > a:focus-visible,
+.nav-links > li > a[aria-current="page"],
+.nav-toggle:hover,
+.nav-toggle:focus-visible,
+.has-dropdown.is-open .nav-toggle {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  outline: none;
+}
+
+/* ---------- Projects drop-down ----------
+   Opens when the mouse is over "Projects", or when it's clicked / tapped / pressed with Enter.
+   The panel's right edge lines up with the right page margin, so it never runs off the screen.
+   (The opening and closing on click, tap and keyboard is handled by site.js.) */
+.has-dropdown { position: static; } /* so the panel is placed relative to the whole menu, not just "Projects" */
+
+.nav-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding-top: 0;
+  padding-inline: 0;
+  border-top: 0;
+  border-inline: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Small arrow next to "Projects"; flips when the panel is open */
+.nav-chevron {
+  width: 0.7em;
+  height: 0.7em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.25s ease;
+}
+.has-dropdown.is-open .nav-chevron { transform: rotate(180deg); }
+
+/* The panel. The transparent padding at its top is an invisible "bridge", so the mouse
+   can travel from "Projects" down to the list without it closing. */
+.dropdown {
+  position: absolute;
+  z-index: 20;
+  top: 100%;
+  right: 0;
+  width: min(24rem, calc(100vw - 2 * var(--page-x)));
+  padding-top: 0.9rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  /* Closing: a short pause first, so it doesn't vanish if the mouse slips off for a moment */
+  transition:
+    opacity 0.2s ease 0.15s,
+    transform 0.2s ease 0.15s,
+    visibility 0s linear 0.35s;
+}
+
+.has-dropdown.is-open .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
+    visibility 0s;
+}
+
+/* Devices with a real mouse: open on hover too */
+@media (hover: hover) {
+  .has-dropdown:hover .nav-toggle { color: var(--accent); border-bottom-color: var(--accent); }
+  .has-dropdown:hover .nav-chevron { transform: rotate(180deg); }
+  .has-dropdown:hover .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity 0.2s ease,
+      transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
+      visibility 0s;
+  }
+}
+
+.dropdown-panel {
+  background: var(--band);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+/* The list of projects. If it ever gets long, it scrolls inside the panel. */
+.dropdown-list {
+  list-style: none;
+  max-height: min(26rem, 60vh);
+  overflow-y: auto;
+}
+
+/* One project: number on the left, short title + full name on the right */
+.dropdown-item {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  gap: 0 0.75rem;
+  padding: 1rem 1.15rem;
+  border-bottom: 1px solid var(--line);
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-num {
+  padding-top: 0.3rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.dropdown-title {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  line-height: 1.1;
+  color: var(--text);
+  transition: color 0.2s ease;
+}
+
+.dropdown-desc {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+/* "All projects →" at the bottom of the panel */
+.dropdown-all {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.85rem 1.15rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.dropdown-item:hover,
+.dropdown-all:hover { background: rgba(255, 255, 255, 0.04); }
+.dropdown-item:hover .dropdown-title,
+.dropdown-all:hover { color: var(--accent); }
+
+.dropdown-item:focus-visible,
+.dropdown-all:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: -1px;
+}
+
+/* ---------- Page title and tagline ----------
+   Wide screens: title on the left, tagline on the right, on the same line.
+   Narrow screens: stacked, left-aligned (see the 720px rule below). */
+.hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 3rem;
+  padding: clamp(2rem, 8vh, 5rem) var(--page-x) clamp(1.25rem, 4vh, 2.5rem);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(3rem, min(9vw, 13vh), 7.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.015em;
+}
+
+/* Each letter of the title is wrapped in a span by the page's script,
+   then rises in gently, one after another. */
+.title .letter {
+  display: inline-block;
+  white-space: pre;
+  opacity: 0;
+  animation: trickle 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+@keyframes trickle {
+  from { opacity: 0; transform: translateY(0.15em); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.tagline {
+  max-width: 34ch;
+  text-wrap: balance;       /* if it wraps, the lines come out roughly even */
+  color: var(--muted);
+  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  line-height: 1.45;
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .tagline { text-align: left; }
+}
+
+/* Things with class="fade-in" (e.g. the tagline) fade up shortly after the title */
+.fade-in {
+  opacity: 0;
+  animation: fade-up 0.7s ease forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================================
+   BOTTOM BAND: copyright on the left, links on the right
+   ========================================================================= */
+.footer {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  padding: clamp(1.5rem, 4vh, 2.25rem) var(--page-x);
+  color: var(--muted);
+  font-size: 0.85rem;
+  background: var(--band);
+  border-top: 1px solid var(--line);
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.25rem, 3vw, 2rem);
+  list-style: none;
+}
+
+.footer-links a {
+  padding-bottom: 3px;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  outline: none;
+}
+
+/* Phones: links above the copyright line */
+@media (max-width: 520px) {
+  .footer {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+}
+
+/* ---------- People who prefer no animation see everything instantly ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .title .letter,
+  .fade-in {
+    animation: none;
+    opacity: 1;
+  }
+
+  /* The Projects panel appears and disappears without sliding */
+  .dropdown,
+  .has-dropdown.is-open .dropdown { transform: none; }
+  .nav-chevron { transition: none; }
+}
