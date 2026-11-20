@@ -225,7 +225,14 @@
     .lightbox-figure {
       width: min(calc(85vh * 2 / 3), calc((100vh - 7rem) * 2 / 3), calc(100vw - 9rem));
       width: min(calc(85dvh * 2 / 3), calc((100dvh - 7rem) * 2 / 3), calc(100vw - 9rem));
+
+      /* Drag / swipe sideways to change photo (handled by the script) */
+      cursor: grab;
+      touch-action: pan-y pinch-zoom; /* phones: sideways swipes change photo, pinch-to-zoom still works */
+      -webkit-user-select: none;
+              user-select: none;
     }
+    .lightbox-figure.is-dragging { cursor: grabbing; }
 
     .lightbox-frame {
       position: relative;
@@ -845,6 +852,7 @@
     // Runs however the view is closed (button, backdrop, or Escape).
     lightbox.addEventListener("close", () => {
       lightboxOpen = false;
+      resetSwipe();
       // Return focus to the photo that was on screen (the original, not a hidden copy).
       photos[current].focus({ preventScroll: true });
     });
@@ -855,6 +863,7 @@
 
     // Clicking the dark area around the photo closes it.
     lightbox.addEventListener("click", event => {
+      if (swipeSuppressClick) return; // the end of a swipe isn't a click
       if (event.target === lightbox || event.target.classList.contains("lightbox-stage")) {
         closeLightbox();
       }
@@ -865,6 +874,120 @@
       if (event.key === "ArrowLeft")  { event.preventDefault(); showPhoto(current - 1); }
       if (event.key === "ArrowRight") { event.preventDefault(); showPhoto(current + 1); }
     });
+
+
+    // ================= Enlarged view: drag / swipe sideways to change photo =================
+    // The photo follows the mouse or finger. Let go after dragging far enough (or after a quick
+    // flick) and it slides away while the next one slides in; otherwise it springs back.
+    // Drag left = next photo, drag right = previous photo.
+    const figure = lightbox.querySelector(".lightbox-figure");
+    let swipe = null;               // details of the drag in progress
+    let swipeBusy = false;          // a photo change animation is running
+    let swipeSuppressClick = false;
+    const EASE = "cubic-bezier(0.2, 0.7, 0.2, 1)";
+
+    figure.addEventListener("pointerdown", e => {
+      if (swipeBusy || (e.pointerType === "mouse" && e.button !== 0)) return;
+      swipe = { id: e.pointerId, startX: e.clientX, startY: e.clientY, dx: 0, moved: false,
+                lastX: e.clientX, lastTime: e.timeStamp, speed: 0 };
+    });
+
+    figure.addEventListener("pointermove", e => {
+      if (!swipe || e.pointerId !== swipe.id) return;
+      const dx = e.clientX - swipe.startX;
+
+      if (!swipe.moved) {
+        if (Math.abs(dx) < 8) return;                                   // small wobble: ignore
+        if (Math.abs(e.clientY - swipe.startY) > Math.abs(dx)) { swipe = null; return; } // mostly up/down: not a swipe
+        swipe.moved = true;
+        figure.classList.add("is-dragging");
+        try { figure.setPointerCapture(e.pointerId); } catch (err) {}
+      }
+
+      const dt = e.timeStamp - swipe.lastTime;
+      if (dt > 0) swipe.speed = (e.clientX - swipe.lastX) / dt;       // pixels per millisecond
+      swipe.lastX = e.clientX;
+      swipe.lastTime = e.timeStamp;
+      swipe.dx = dx;
+
+      // Follow the pointer, fading slightly the further it goes.
+      figure.style.transform = "translateX(" + dx + "px)";
+      figure.style.opacity = 1 - Math.min(Math.abs(dx) / figure.offsetWidth, 1) * 0.5;
+    });
+
+    function endSwipe(e) {
+      if (!swipe || e.pointerId !== swipe.id) return;
+      const s = swipe;
+      swipe = null;
+      if (!s.moved) return;
+
+      figure.classList.remove("is-dragging");
+      swipeSuppressClick = true;
+      setTimeout(() => { swipeSuppressClick = false; }, 0);
+
+      const farEnough = Math.abs(s.dx) > Math.min(100, figure.offsetWidth * 0.2);
+      const flick = Math.abs(s.speed) > 0.5 && Math.abs(s.dx) > 20 && Math.sign(s.speed) === Math.sign(s.dx);
+
+      if (e.type !== "pointercancel" && (farEnough || flick)) {
+        changeBySwipe(s.dx < 0 ? 1 : -1, s.dx);
+      } else {
+        springBack(s.dx);
+      }
+    }
+
+    figure.addEventListener("pointerup", endSwipe);
+    figure.addEventListener("pointercancel", endSwipe);
+    figure.addEventListener("dragstart", e => e.preventDefault()); // no browser "drag the image" ghost
+
+    // Not dragged far enough: slide back to the middle.
+    function springBack(dx) {
+      const opacity = parseFloat(figure.style.opacity) || 1;
+      figure.style.transform = "";
+      figure.style.opacity = "";
+      if (reduceMotion.matches || !figure.animate) return;
+      figure.animate(
+        [{ transform: "translateX(" + dx + "px)", opacity }, { transform: "translateX(0)", opacity: 1 }],
+        { duration: 250, easing: EASE });
+    }
+
+    // Slide the current photo out, switch, then slide the new one in from the other side.
+    async function changeBySwipe(step, dx) {
+      const width = figure.offsetWidth;
+      const opacity = parseFloat(figure.style.opacity) || 1;
+      figure.style.transform = "";
+      figure.style.opacity = "";
+
+      if (reduceMotion.matches || !figure.animate) {           // no sliding: just switch
+        showPhoto(current + step);
+        return;
+      }
+
+      swipeBusy = true;
+      const out = figure.animate(
+        [{ transform: "translateX(" + dx + "px)", opacity },
+         { transform: "translateX(" + (-step * width * 0.5) + "px)", opacity: 0 }],
+        { duration: 180, easing: "ease-in", fill: "forwards" });
+      await out.finished.catch(() => {});
+      if (!lightbox.open) return;                               // closed mid-swipe
+
+      showPhoto(current + step);
+      out.cancel();
+      await figure.animate(
+        [{ transform: "translateX(" + (step * width * 0.35) + "px)", opacity: 0 },
+         { transform: "translateX(0)", opacity: 1 }],
+        { duration: 320, easing: EASE }).finished.catch(() => {});
+      swipeBusy = false;
+    }
+
+    // Closing the view mid-swipe: put everything back to normal.
+    function resetSwipe() {
+      swipe = null;
+      swipeBusy = false;
+      figure.classList.remove("is-dragging");
+      figure.style.transform = "";
+      figure.style.opacity = "";
+      if (figure.getAnimations) figure.getAnimations().forEach(a => a.cancel());
+    }
   </script>
 
 </body>
