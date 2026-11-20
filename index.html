@@ -230,6 +230,14 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: opacity 0.25s ease;  /* the new photo fades in once it has loaded */
+    }
+
+    /* While the next photo is downloading, the previous one is hidden at once
+       (no fade out), so it never flashes up for a moment */
+    .lightbox-img.is-loading {
+      opacity: 0;
+      transition: none;
     }
 
     /* Caption on the left, "03 / 06" on the right */
@@ -367,6 +375,7 @@
       .lightbox[open] .lightbox-frame,
       .lightbox[open]::backdrop { animation: none; }
       .lightbox-btn,
+      .lightbox-img,
       .lightbox-arrow svg { transition: none; }
       .lightbox-prev:hover svg,
       .lightbox-next:hover svg { transform: none; }
@@ -749,17 +758,39 @@
 
     const twoDigits = n => String(n).padStart(2, "0"); // 3 -> "03"
 
+    // Photos whose large version (images/full/...) doesn't exist. Remembered so the page
+    // doesn't keep asking the server for them, which made switching photos slow on the live site.
+    const missingFull = new Set();
+
+    // The file to show for photo number i: the large version, or the strip version if there isn't one.
+    function sourceFor(i) {
+      return missingFull.has(i) ? photos[i].querySelector("img").getAttribute("src") : photos[i].dataset.full;
+    }
+
+    // Quietly download a photo in the background so it's ready before it's needed.
+    function preload(i) {
+      i = (i + photos.length) % photos.length;
+      if (missingFull.has(i)) return;
+      const img = new Image();
+      img.onerror = () => missingFull.add(i);
+      img.src = photos[i].dataset.full;
+    }
+
     function showPhoto(index) {
       current = (index + photos.length) % photos.length; // wrap around at both ends
       const photo = photos[current];
       const thumb = photo.querySelector("img");
       const caption = photo.dataset.caption || "";
 
-      // Load the large image; if it's missing, fall back to the thumbnail, then to the placeholder.
+      // Hide the previous photo straight away, then load the new one
+      // (large version if it exists, otherwise the strip version, otherwise the grey placeholder).
       bigImg.classList.remove("is-missing");
+      bigImg.classList.add("is-loading");
       bigImg.alt = thumb.alt;
+      bigImg.dataset.index = current;
       bigImg.dataset.fallback = thumb.getAttribute("src");
-      bigImg.src = photo.dataset.full;
+      bigImg.src = sourceFor(current);
+      if (bigImg.complete && bigImg.naturalWidth > 0) bigImg.classList.remove("is-loading"); // already downloaded
 
       captionText.textContent = caption;
       countText.textContent = twoDigits(current + 1) + " / " + twoDigits(photos.length);
@@ -769,14 +800,23 @@
       frame.style.animation = "none";
       void frame.offsetWidth;
       frame.style.animation = "";
+
+      // Get the photos either side ready, so the arrows feel instant.
+      preload(current + 1);
+      preload(current - 1);
     }
+
+    // The new photo has arrived: fade it in.
+    bigImg.addEventListener("load", () => bigImg.classList.remove("is-loading"));
 
     bigImg.addEventListener("error", () => {
       const fallback = bigImg.dataset.fallback;
       if (fallback && bigImg.getAttribute("src") !== fallback) {
-        bigImg.src = fallback;                 // try the thumbnail instead
+        missingFull.add(Number(bigImg.dataset.index)); // remember: no large version for this photo
+        bigImg.src = fallback;                         // use the strip version instead
       } else {
-        bigImg.classList.add("is-missing");    // show the grey placeholder
+        bigImg.classList.remove("is-loading");
+        bigImg.classList.add("is-missing");            // show the grey placeholder
       }
     });
 
