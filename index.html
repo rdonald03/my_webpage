@@ -95,15 +95,12 @@
 
     /* The visible window of the strip */
     .strip {
+      position: relative;       /* for the faded edges below */
       width: 100%;
       min-width: 0;             /* lets it shrink to the screen width instead of the full row's width */
       overflow: hidden;         /* fallback for older browsers */
       overflow: clip;           /* "clip" (unlike hidden) can't be scrolled by focusing a photo */
       padding-block: clamp(1.25rem, 3.5vh, 2.5rem); /* room for the hover lift and focus outline */
-
-      /* Soft fade at the left and right edges */
-      -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
-              mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
 
       /* Dragging */
       cursor: grab;
@@ -111,6 +108,21 @@
       -webkit-user-select: none;
               user-select: none;
     }
+
+    /* Soft fade at the left and right edges: two strips of background colour that fade to
+       see-through, laid over the photos. (Much lighter work for phones than a CSS mask.) */
+    .strip::before,
+    .strip::after {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      bottom: 0;
+      width: 12%;
+      pointer-events: none;     /* clicks and drags pass straight through to the photos */
+    }
+    .strip::before { left: 0;  background: linear-gradient(to right, var(--bg), transparent); }
+    .strip::after  { right: 0; background: linear-gradient(to left,  var(--bg), transparent); }
 
     .strip.is-dragging,
     .strip.is-dragging .photo { cursor: grabbing; }
