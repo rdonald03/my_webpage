@@ -855,11 +855,22 @@
     }
 
     // Runs however the view is closed (button, backdrop, or Escape).
+    // Was the visitor's last action a key press (rather than a click, tap or swipe)?
+    let usingKeyboard = false;
+    document.addEventListener("keydown", () => { usingKeyboard = true; }, true);
+    document.addEventListener("pointerdown", () => { usingKeyboard = false; }, true);
+
     lightbox.addEventListener("close", () => {
       lightboxOpen = false;
       resetSwipe();
-      // Return focus to the photo that was on screen (the original, not a hidden copy).
-      photos[current].focus({ preventScroll: true });
+      if (usingKeyboard) {
+        // Keyboard users: put them back on the photo that was on screen (the original, not a
+        // hidden copy), so Tab carries on from there. The strip waits while it's selected.
+        photos[current].focus({ preventScroll: true });
+      } else if (strip.contains(document.activeElement)) {
+        // Mouse, tap or swipe: nothing stays selected, so the strip carries on moving.
+        document.activeElement.blur();
+      }
     });
 
     lightbox.querySelector(".lightbox-close").addEventListener("click", closeLightbox);
