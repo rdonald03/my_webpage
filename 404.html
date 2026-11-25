@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page not found · Ryan Donald</title>
+  <meta name="description" content="This page doesn't exist.">
+  <!-- Keep this page out of Google search results -->
+  <meta name="robots" content="noindex">
+
+  <!--
+    PAGE NOT FOUND (404)
+    GitHub Pages shows this page automatically whenever someone visits an address on
+    rdonald.ca that doesn't exist (a typo, an old link, a page that was renamed...).
+    To see it: visit any made-up address on the live site, e.g. https://rdonald.ca/test-404
+  -->
+
+  <!-- Because this page can appear at ANY address (even rdonald.ca/a/b/c), this tells the browser
+       where the site's files are: the site's root on the live site, or the folder this file is in
+       when it's opened straight from your computer. Keep it above the links below. -->
+  <script>
+    (function () {
+      var base = document.createElement("base");
+      base.href = location.protocol === "file:" ? location.href.replace(/[^\/]*$/, "") : "/";
+      document.head.appendChild(base);
+    })();
+  </script>
+
+  <!-- Tab icon -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Fonts: same as the homepage -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Shared styles and script used by every page -->
+  <link rel="stylesheet" href="styles.css">
+  <script src="site.js" defer></script>
+
+  <!-- Styles only this page needs -->
+  <style>
+    main {
+      flex: 1;
+      padding: clamp(3rem, 9vh, 6rem) var(--page-x);
+    }
+
+    .notfound-text {
+      max-width: 52ch;
+      color: var(--text-body);
+      font-size: clamp(1rem, 1.2vw, 1.1rem);
+      line-height: 1.7;
+    }
+
+    /* Where to go instead: one row per page */
+    .notfound-links {
+      margin-top: clamp(2.5rem, 7vh, 4rem);
+      list-style: none;
+      border-top: 1px solid var(--line);
+    }
+
+    .notfound-links a {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-block: clamp(1.1rem, 3vh, 1.6rem);
+      border-bottom: 1px solid var(--line);
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      line-height: 1.1;
+      transition: color 0.2s ease;
+    }
+
+    .notfound-links .arrow {
+      color: var(--muted);
+      font-family: var(--font-sans);
+      font-size: 1.1rem;
+      transition: color 0.2s ease, transform 0.25s ease;
+    }
+
+    .notfound-links a:hover,
+    .notfound-links a:focus-visible { color: var(--accent); outline: none; }
+    .notfound-links a:hover .arrow,
+    .notfound-links a:focus-visible .arrow { color: var(--accent); transform: translateX(4px); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .notfound-links a,
+      .notfound-links .arrow { transition: none; }
+      .notfound-links a:hover .arrow,
+      .notfound-links a:focus-visible .arrow { transform: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============ TOP BAND: menu + page title ============ -->
+  <header class="top-band">
+    <nav class="nav">
+      <a class="nav-logo" href="/" aria-label="Ryan Donald, home">RD</a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li class="has-dropdown">
+          <!-- "Projects" goes to the All projects page; the small arrow next to it opens the list -->
+          <a href="/projects">Projects</a><button class="nav-toggle" type="button" aria-expanded="false"
+                  aria-controls="projects-menu" aria-label="Show the list of projects">
+            <svg class="nav-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
+          </button>
+
+          <!-- Projects drop-down. TO ADD A PROJECT: copy one <li> ... </li> block below, paste it
+               after the last one, and change the number, short title, full name and link.
+               (The menu is on every page, so add it to each one.) -->
+          <div class="dropdown" id="projects-menu">
+            <div class="dropdown-panel">
+              <ul class="dropdown-list">
+                <li>
+                  <a class="dropdown-item" href="/starling-behaviour">
+                    <span class="dropdown-num">01</span>
+                    <span>
+                      <span class="dropdown-title">Starling Behaviour</span>
+                      <span class="dropdown-desc">Computer Vision for Detecting and Monitoring European Starling Behaviour</span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/corvid-biogeography">
+                    <span class="dropdown-num">02</span>
+                    <span>
+                      <span class="dropdown-title">Corvid Biogeography</span>
+                      <span class="dropdown-desc">Unraveling the Biogeography of Corvids</span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <a class="dropdown-all" href="/projects">All projects <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero">
+      <h1 class="title" id="title">Page not found</h1>
+      <p class="tagline fade-in">Error 404</p>
+    </div>
+  </header>
+
+  <main>
+    <p class="notfound-text fade-in">
+      The page you were looking for doesn't exist. It may have moved, or there may be a typo in
+      the address. Try one of these instead:
+    </p>
+
+    <ul class="notfound-links fade-in">
+      <li><a href="/">Home <span class="arrow" aria-hidden="true">&rarr;</span></a></li>
+      <li><a href="/projects">Projects <span class="arrow" aria-hidden="true">&rarr;</span></a></li>
+      <li><a href="/about">About <span class="arrow" aria-hidden="true">&rarr;</span></a></li>
+      <li><a href="/contact">Contact <span class="arrow" aria-hidden="true">&rarr;</span></a></li>
+    </ul>
+  </main>
+
+  <!-- ============ BOTTOM BAND (same as every page) ============ -->
+  <footer class="footer">
+    <p>&copy; <span id="year">2026</span> Ryan Donald</p>
+    <ul class="footer-links">
+      <!-- GitHub: hidden for now. Remove the comment markers to show it
+      <li><a href="https://github.com/rdonald03" target="_blank" rel="noopener">GitHub</a></li>
+      -->
+      <!-- LinkedIn: add your profile link and remove the comment markers to show it
+      <li><a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener">LinkedIn</a></li>
+      -->
+      <li><a href="mailto:ryandonaldrjd@gmail.com">Email</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // Title letters rise in one after another (same as the other pages)
+    const title = document.getElementById("title");
+    const text = title.textContent;
+    const delayPerLetter = 0.4 / Math.max(text.length - 1, 1);
+    title.setAttribute("aria-label", text);
+    title.textContent = "";
+    [...text].forEach((character, index) => {
+      const span = document.createElement("span");
+      span.className = "letter";
+      span.textContent = character;
+      span.setAttribute("aria-hidden", "true");
+      span.style.animationDelay = (index * delayPerLetter) + "s";
+      title.appendChild(span);
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

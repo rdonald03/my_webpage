@@ -1,0 +1,458 @@
+/* =========================================================================
+   PROJECT STYLES — shared by projects.html (the "All projects" page) and every
+   individual project page (starling-behaviour.html, corvid-biogeography.html, ...).
+   Loaded after styles.css. Change something here and every project page follows.
+   ========================================================================= */
+
+:root {
+  --radius: 3px;          /* image corner rounding (matches the homepage photos) */
+  --measure: 68ch;        /* longest comfortable line of text for reading */
+}
+
+html { scroll-behavior: smooth; }   /* clicking a contents link glides to that section */
+
+main { flex: 1; }
+
+/* Content lines up with the menu, title and footer (same left/right page margin) at every screen size */
+.wrap {
+  width: 100%;
+  padding-inline: var(--page-x);
+}
+
+/* Project pages use a slightly smaller page title than Home / About */
+.project-page .title { font-size: clamp(2.75rem, min(7vw, 11vh), 6rem); }
+
+/* "← All projects" link above a project's title */
+.crumb {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+.crumb:hover,
+.crumb:focus-visible { color: var(--accent); outline: none; }
+
+/* ---------- Gentle fade-in as things scroll into view (project.js adds .is-visible) ---------- */
+.js .fade {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--delay, 0s);
+}
+.js .fade.is-visible { opacity: 1; transform: none; }
+
+/* =========================================================================
+   IMAGES
+   Each image sits in a .media-frame with:
+     --ratio  its shape (width / height), e.g. 16 / 9
+     --tone   the placeholder gradient shown until the real image exists
+   While the file is missing, the frame shows the gradient plus a small label
+   with the file name and shape.
+   ========================================================================= */
+.media { margin: 0; }
+
+.media-frame {
+  position: relative;
+  aspect-ratio: var(--ratio, 16 / 9);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #1a1a19;
+}
+
+.media-inner {
+  position: absolute;
+  inset: 0;
+  background: var(--tone, linear-gradient(160deg, #2a2a28, #191918));
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.media-inner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-inner img.is-missing { opacity: 0; }
+
+.media-label {
+  position: absolute;
+  left: 0.85rem;
+  bottom: 0.75rem;
+  display: none;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+}
+.media-frame:has(img.is-missing) .media-label { display: block; }
+
+/* =========================================================================
+   ALL PROJECTS PAGE: grid of project cards
+   Cards fill from the left: 3 across on wide screens, 2 on tablets, 1 on phones.
+   ========================================================================= */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+  gap: clamp(2.5rem, 6vh, 4rem) clamp(1rem, 2.5vw, 2rem);
+  padding-block: clamp(3rem, 9vh, 6rem);
+  list-style: none;
+}
+
+.project-card {
+  display: block;
+  height: 100%;
+}
+
+.project-card .media-frame { --ratio: 3 / 2; }
+
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.card-title {
+  margin-top: 0.6rem;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.2vw, 1.85rem);
+  line-height: 1.1;
+}
+
+.card-desc {
+  margin-top: 0.6rem;
+  max-width: 46ch;
+  color: var(--text-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.card-link {
+  display: inline-flex;
+  gap: 0.5em;
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+.card-link span { transition: transform 0.25s ease; }
+
+/* Hover / keyboard focus: the picture zooms very slightly, the title underlines, the arrow nudges */
+.project-card:hover .media-inner,
+.project-card:focus-visible .media-inner { transform: scale(1.03); }
+.project-card:hover .card-title,
+.project-card:focus-visible .card-title {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+.project-card:hover .card-link,
+.project-card:focus-visible .card-link { color: var(--accent); }
+.project-card:hover .card-link span,
+.project-card:focus-visible .card-link span { transform: translateX(4px); }
+.project-card:focus-visible { outline: 1px solid var(--accent); outline-offset: 8px; }
+
+/* =========================================================================
+   PROJECT PAGE
+   ========================================================================= */
+
+/* ---------- Key facts row: Year, Role, Methods, ... ---------- */
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); /* 2 across on phones */
+  gap: 1.25rem 2rem;
+  padding-block: clamp(1.75rem, 5vh, 2.75rem);
+  border-bottom: 1px solid var(--line);
+}
+
+.facts dt {
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.facts dd {
+  margin-top: 0.4rem;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.facts a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.facts a:hover { color: var(--accent); }
+
+/* ---------- Large opening figure ---------- */
+.figure.lead-figure { margin: 0; padding-top: clamp(2.5rem, 7vh, 4.5rem); }
+.lead-figure .media-frame { --ratio: 21 / 9; }
+
+/* ---------- Contents on the left, the write-up on the right ---------- */
+.project-layout {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(1rem, 2.5vw, 2rem);
+  row-gap: 2.5rem;
+  padding-block: clamp(3rem, 9vh, 6rem);
+}
+
+.toc,
+.article { grid-column: 1 / -1; }   /* phones and tablets: contents above the text */
+
+/* Contents list. On wide screens it stays in view beside the text and
+   highlights the section you're reading (project.js). */
+.toc-title {
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin-top: 0.9rem;
+  list-style: none;
+  border-left: 1px solid var(--line);
+}
+
+.toc a {
+  display: flex;
+  gap: 0.7rem;
+  margin-left: -1px;
+  padding: 0.35rem 0 0.35rem 1rem;
+  border-left: 1px solid transparent;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.35;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.toc-num {
+  min-width: 1.5em;
+  font-variant-numeric: tabular-nums;
+}
+
+.toc a:hover,
+.toc a:focus-visible,
+.toc a.is-active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  outline: none;
+}
+
+@media (min-width: 1000px) {
+  .toc     { grid-column: 1 / 4; }
+  .article { grid-column: 4 / 12; }
+  .toc-inner { position: sticky; top: 2.5rem; }
+}
+
+/* ---------- The write-up ---------- */
+.article > section {
+  scroll-margin-top: 2rem;   /* leaves a little room above a section when jumped to */
+}
+.article > section + section { margin-top: clamp(3.5rem, 9vh, 5.5rem); }
+
+/* Text blocks keep a comfortable reading width; figures and tables may be wider */
+.article p,
+.article ul,
+.article ol,
+.article h2,
+.article h3,
+.article .callout { max-width: var(--measure); }
+
+.section-num {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+}
+
+.article h2 {
+  margin-bottom: 1.25rem;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  line-height: 1.1;
+}
+
+.article h3 {
+  margin: 2.25rem 0 0.75rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.article p,
+.article li {
+  color: var(--text-body);
+  font-size: clamp(1rem, 1.1vw, 1.0625rem);
+  line-height: 1.75;
+}
+
+.article p + p { margin-top: 1.1em; }
+.article ul,
+.article ol { margin-top: 1em; padding-left: 1.2em; }
+.article li + li { margin-top: 0.4em; }
+
+.article a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.article a:hover { color: var(--accent); }
+
+/* Abstract: larger serif text, like an opening paragraph */
+.abstract p {
+  color: var(--text);
+  font-family: var(--font-serif);
+  font-size: clamp(1.3rem, 2vw, 1.65rem);
+  line-height: 1.4;
+}
+
+/* ---------- Figures ---------- */
+.figure { margin-block: 2.5rem; }
+
+.figure figcaption {
+  max-width: var(--measure);
+  margin-top: 0.8rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+.figure figcaption b { color: var(--text); font-weight: 500; }
+
+/* Two images side by side, sharing one caption */
+.figure-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+/* ---------- Tables ---------- */
+.table-wrap {
+  margin-block: 2.5rem;
+  overflow-x: auto;           /* wide tables scroll sideways on phones */
+}
+
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.table-wrap caption {
+  caption-side: bottom;
+  padding-top: 0.8rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: left;
+}
+.table-wrap caption b { color: var(--text); font-weight: 500; }
+
+.table-wrap th {
+  padding: 0.6rem 1rem 0.6rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.table-wrap td {
+  padding: 0.75rem 1rem 0.75rem 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--text-body);
+}
+
+.table-wrap .num { text-align: right; }
+
+/* ---------- Key findings box ---------- */
+.callout {
+  margin-block: 2rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--band);
+}
+.callout-title {
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.article .callout ol { margin-top: 0.75rem; }
+
+/* ---------- References ---------- */
+.references ol { padding-left: 1.6em; }
+.article .references li {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+/* ---------- Previous / next project at the bottom ---------- */
+.project-pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--line);
+}
+
+.pager-link {
+  display: block;
+  padding-block: clamp(1.75rem, 5vh, 3rem);
+  transition: color 0.2s ease;
+}
+.pager-link + .pager-link { text-align: right; }
+
+.pager-label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.pager-title {
+  display: block;
+  margin-top: 0.4rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.3rem, 2.4vw, 1.9rem);
+  line-height: 1.15;
+}
+
+.pager-link:hover .pager-title,
+.pager-link:focus-visible .pager-title { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+.pager-link:focus-visible { outline: none; }
+
+@media (max-width: 720px) {
+  .lead-figure .media-frame { --ratio: 16 / 9; }   /* the wide opening image would be too thin on phones */
+}
+
+@media (max-width: 520px) {
+  .figure-pair { grid-template-columns: 1fr; }
+}
+
+/* ---------- People who prefer no animation: everything visible, no gliding or zooming ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .fade { opacity: 1; transform: none; transition: none; }
+  .media-inner,
+  .card-link span { transition: none; }
+  .project-card:hover .media-inner,
+  .project-card:focus-visible .media-inner,
+  .project-card:hover .card-link span,
+  .project-card:focus-visible .card-link span { transform: none; }
+}

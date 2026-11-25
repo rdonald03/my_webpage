@@ -6,6 +6,20 @@
   <title>About · Ryan Donald</title>
   <meta name="description" content="About Ryan Donald.">
 
+  <!-- Link preview: the card shown when this page is shared (LinkedIn, iMessage, Slack, X, ...).
+       The title and description come from here; the image is images/share/preview.jpg (1200 x 630). -->
+  <link rel="canonical" href="https://rdonald.ca/about">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ryan Donald">
+  <meta property="og:title" content="About · Ryan Donald">
+  <meta property="og:description" content="About Ryan Donald.">
+  <meta property="og:url" content="https://rdonald.ca/about">
+  <meta property="og:image" content="https://rdonald.ca/images/share/preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Ryan Donald, rdonald.ca">
+  <meta name="twitter:card" content="summary_large_image">
+
   <!-- Tab icon: "RD" in a circle (same files as the homepage) -->
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -324,24 +338,25 @@
   <!-- ============ TOP BAND: menu + page title ============ -->
   <header class="top-band">
     <nav class="nav">
-      <a class="nav-logo" href="index.html" aria-label="Ryan Donald, home">RD</a>
+      <a class="nav-logo" href="/" aria-label="Ryan Donald, home">RD</a>
       <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html" aria-current="page">About</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about" aria-current="page">About</a></li>
         <li class="has-dropdown">
-          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="projects-menu">
-            Projects
+          <!-- "Projects" goes to the All projects page; the small arrow next to it opens the list -->
+          <a href="/projects">Projects</a><button class="nav-toggle" type="button" aria-expanded="false"
+                  aria-controls="projects-menu" aria-label="Show the list of projects">
             <svg class="nav-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
           </button>
 
           <!-- Projects drop-down. TO ADD A PROJECT: copy one <li> ... </li> block below, paste it
                after the last one, and change the number, short title, full name and link.
-               Replace href="#" with the project's page once it exists. -->
+               (The menu is on every page, so add it to each one.) -->
           <div class="dropdown" id="projects-menu">
             <div class="dropdown-panel">
               <ul class="dropdown-list">
                 <li>
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="/starling-behaviour">
                     <span class="dropdown-num">01</span>
                     <span>
                       <span class="dropdown-title">Starling Behaviour</span>
@@ -350,7 +365,7 @@
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="/corvid-biogeography">
                     <span class="dropdown-num">02</span>
                     <span>
                       <span class="dropdown-title">Corvid Biogeography</span>
@@ -359,11 +374,11 @@
                   </a>
                 </li>
               </ul>
-              <a class="dropdown-all" href="#">All projects <span aria-hidden="true">&rarr;</span></a>
+              <a class="dropdown-all" href="/projects">All projects <span aria-hidden="true">&rarr;</span></a>
             </div>
           </div>
         </li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="/contact">Contact</a></li>
       </ul>
     </nav>
 
@@ -542,9 +557,9 @@
 
         <div class="contact-body reveal" style="--delay: 0.1s;">
           <p class="body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          <!-- Replace with your email address (both places) -->
+          <!-- Your email address (appears twice: the link and the visible text) -->
           <p style="margin-top: 1.5rem;">
-            <a class="contact-link" href="mailto:you@example.com">you@example.com <span aria-hidden="true">&rarr;</span></a>
+            <a class="contact-link" href="mailto:ryandonaldrjd@gmail.com">ryandonaldrjd@gmail.com <span aria-hidden="true">&rarr;</span></a>
           </p>
         </div>
       </div>
@@ -556,11 +571,14 @@
   <footer class="footer">
     <p>&copy; <span id="year">2026</span> Ryan Donald</p>
 
-    <!-- Replace the "#" links with your own addresses (same as on the homepage) -->
     <ul class="footer-links">
-      <li><a href="#">GitHub</a></li>
-      <li><a href="#">LinkedIn</a></li>
-      <li><a href="#">Email</a></li>
+      <!-- GitHub: hidden for now. Remove the comment markers to show it
+      <li><a href="https://github.com/rdonald03" target="_blank" rel="noopener">GitHub</a></li>
+      -->
+      <!-- LinkedIn: add your profile link and remove the comment markers to show it
+      <li><a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener">LinkedIn</a></li>
+      -->
+      <li><a href="mailto:ryandonaldrjd@gmail.com">Email</a></li>
     </ul>
   </footer>
 

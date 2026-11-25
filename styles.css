@@ -80,9 +80,8 @@ a { color: inherit; text-decoration: none; }
   font-size: 0.9rem;
 }
 
-/* Menu links and the "Projects" button look the same */
-.nav-links > li > a,
-.nav-toggle {
+/* Menu links (including the word "Projects", which links to the All projects page) */
+.nav-links > li > a {
   color: var(--muted);
   padding-bottom: 3px;
   border-bottom: 1px solid transparent;
@@ -92,31 +91,56 @@ a { color: inherit; text-decoration: none; }
 .nav-links > li > a:hover,
 .nav-links > li > a:focus-visible,
 .nav-links > li > a[aria-current="page"],
-.nav-toggle:hover,
-.nav-toggle:focus-visible,
-.has-dropdown.is-open .nav-toggle {
+.has-dropdown.is-open > a,
+.has-dropdown.is-current > a {      /* on a project page, "Projects" is underlined like the current page */
   color: var(--accent);
   border-bottom-color: var(--accent);
   outline: none;
 }
 
 /* ---------- Projects drop-down ----------
-   Opens when the mouse is over "Projects", or when it's clicked / tapped / pressed with Enter.
-   The panel's right edge lines up with the right page margin, so it never runs off the screen.
-   (The opening and closing on click, tap and keyboard is handled by site.js.) */
+   Clicking or tapping the word "Projects" goes to the All projects page.
+   The panel opens when the mouse is over "Projects", or when the small arrow beside it is
+   clicked / tapped / pressed with Enter (handled by site.js).
+   The panel's right edge lines up with the right page margin, so it never runs off the screen. */
 .has-dropdown { position: static; } /* so the panel is placed relative to the whole menu, not just "Projects" */
 
+/* The current page's entry in the panel is shown in white */
+.dropdown-item[aria-current="page"] .dropdown-title,
+.dropdown-all[aria-current="page"] { color: var(--accent); }
+
+/* The small arrow button beside "Projects" */
 .nav-toggle {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.35em;
-  padding-top: 0;
-  padding-inline: 0;
-  border-top: 0;
-  border-inline: 0;
+  margin-left: 0.3em;
+  padding: 0;
+  border: 0;
   background: none;
+  color: var(--muted);
   font: inherit;
+  vertical-align: middle;
   cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+/* Invisible larger tap area around the small arrow (doesn't cover the word "Projects") */
+.nav-toggle::before {
+  content: "";
+  position: absolute;
+  inset: -12px -10px -12px -4px;
+}
+
+.nav-toggle:hover,
+.has-dropdown.is-open .nav-toggle,
+.has-dropdown.is-current .nav-toggle { color: var(--accent); }
+
+.nav-toggle:focus-visible {
+  color: var(--accent);
+  outline: 1px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 /* Small arrow next to "Projects"; flips when the panel is open */
@@ -163,7 +187,8 @@ a { color: inherit; text-decoration: none; }
 
 /* Devices with a real mouse: open on hover too */
 @media (hover: hover) {
-  .has-dropdown:hover .nav-toggle { color: var(--accent); border-bottom-color: var(--accent); }
+  .has-dropdown:hover > a { color: var(--accent); border-bottom-color: var(--accent); }
+  .has-dropdown:hover .nav-toggle { color: var(--accent); }
   .has-dropdown:hover .nav-chevron { transform: rotate(180deg); }
   .has-dropdown:hover .dropdown {
     opacity: 1;

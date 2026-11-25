@@ -3,9 +3,11 @@
    ========================================================================= */
 
 // ================= Projects drop-down in the menu =================
+// Clicking the word "Projects" is a normal link to the All projects page.
 // With a mouse, the panel opens on hover (that part is just CSS in styles.css).
 // This script adds the rest:
-//   - clicking / tapping / pressing Enter on "Projects" opens and closes it (phones, keyboards)
+//   - clicking / tapping / pressing Enter on the small arrow beside "Projects" opens and closes it
+//     (phones, keyboards)
 //   - Escape, clicking somewhere else, or tabbing away closes it
 document.querySelectorAll(".has-dropdown").forEach(item => {
   const toggle = item.querySelector(".nav-toggle");

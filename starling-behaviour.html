@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Starling Behaviour · Ryan Donald</title>
+  <meta name="description" content="Computer Vision for Detecting and Monitoring European Starling Behaviour — a research project by Ryan Donald.">
+
+  <!-- Link preview: the card shown when this page is shared (LinkedIn, iMessage, Slack, X, ...).
+       The title and description come from here; the image is images/share/preview.jpg (1200 x 630). -->
+  <link rel="canonical" href="https://rdonald.ca/starling-behaviour">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Ryan Donald">
+  <meta property="og:title" content="Starling Behaviour · Ryan Donald">
+  <meta property="og:description" content="Computer Vision for Detecting and Monitoring European Starling Behaviour — a research project by Ryan Donald.">
+  <meta property="og:url" content="https://rdonald.ca/starling-behaviour">
+  <meta property="og:image" content="https://rdonald.ca/images/share/preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Ryan Donald, rdonald.ca">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Tab icon: "RD" in a circle (same files as the homepage) -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Lets the CSS know JavaScript is running (so the fade-ins only hide things when they can show them) -->
+  <script>document.documentElement.classList.add("js");</script>
+
+  <!-- Fonts: same as the homepage -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Shared styles (colours, fonts, menu, title band, footer) used by every page -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Styles shared by the projects pages (cards, project write-ups) -->
+  <link rel="stylesheet" href="project.css">
+
+  <!-- Shared scripts: the Projects drop-down (site.js); title, fade-ins, contents (project.js) -->
+  <script src="site.js" defer></script>
+  <script src="project.js" defer></script>
+</head>
+
+<body class="project-page">
+
+  <!-- ============ TOP BAND: menu + project title ============ -->
+  <header class="top-band">
+    <nav class="nav">
+      <a class="nav-logo" href="/" aria-label="Ryan Donald, home">RD</a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li class="has-dropdown is-current">
+          <!-- "Projects" goes to the All projects page; the small arrow next to it opens the list -->
+          <a href="/projects">Projects</a><button class="nav-toggle" type="button" aria-expanded="false"
+                  aria-controls="projects-menu" aria-label="Show the list of projects">
+            <svg class="nav-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
+          </button>
+
+          <!-- Projects drop-down. TO ADD A PROJECT: copy one <li> ... </li> block below, paste it
+               after the last one, and change the number, short title, full name and link.
+               (The menu is on every page, so add it to each one.) -->
+          <div class="dropdown" id="projects-menu">
+            <div class="dropdown-panel">
+              <ul class="dropdown-list">
+                <li>
+                  <a class="dropdown-item" href="/starling-behaviour" aria-current="page">
+                    <span class="dropdown-num">01</span>
+                    <span>
+                      <span class="dropdown-title">Starling Behaviour</span>
+                      <span class="dropdown-desc">Computer Vision for Detecting and Monitoring European Starling Behaviour</span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/corvid-biogeography">
+                    <span class="dropdown-num">02</span>
+                    <span>
+                      <span class="dropdown-title">Corvid Biogeography</span>
+                      <span class="dropdown-desc">Unraveling the Biogeography of Corvids</span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <a class="dropdown-all" href="/projects">All projects <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero">
+      <div>
+        <a class="crumb" href="/projects">&larr; All projects</a>
+        <h1 class="title" id="title">Starling Behaviour</h1>
+      </div>
+      <p class="tagline fade-in">Computer Vision for Detecting and Monitoring European Starling Behaviour</p>
+    </div>
+  </header>
+
+  <!-- ============ CONTENT ============
+       HOW TO FILL THIS PAGE IN
+       - Key facts: edit the <dt> labels and <dd> values below (delete any row you don't need).
+       - Text: replace the Lorem ipsum. Each <section> is one numbered part of the write-up.
+         If you add, remove or rename a section, update the Contents list to match
+         (each link's href="#..." must match its section's id="...").
+       - Images go in images/projects/starling-behaviour/ (fig-01.jpg, fig-02.jpg, ...).
+         Each placeholder shows its file name and shape. Edit alt="..." to describe each image.
+       - Figure and table captions sit under each one; keep the numbering in order. -->
+  <main>
+    <div class="wrap">
+
+      <!-- Key facts -->
+      <dl class="facts fade">
+        <div><dt>Year</dt><dd>20XX</dd></div>
+        <div><dt>Role</dt><dd>Lorem ipsum dolor</dd></div>
+        <div><dt>Institution</dt><dd>Lorem ipsum University</dd></div>
+        <div><dt>Methods</dt><dd>Lorem ipsum, dolor sit, amet consectetur</dd></div>
+        <div><dt>Tools</dt><dd>Lorem · Ipsum · Dolor</dd></div>
+        <!-- Links row: put in your paper / code links and remove the comment markers to show it
+        <div><dt>Links</dt><dd><a href="PAPER-LINK">Paper</a> · <a href="CODE-LINK">Code</a></dd></div>
+        -->
+      </dl>
+
+      <!-- Large opening image -->
+      <figure class="media lead-figure figure fade">
+        <div class="media-frame" style="--tone: linear-gradient(160deg, #46404f, #1c1a22);">
+          <div class="media-inner">
+            <img src="images/projects/starling-behaviour/fig-01.jpg" alt="Figure 1 (replace with a short description)"
+                 onerror="this.classList.add('is-missing')">
+          </div>
+          <span class="media-label">fig-01.jpg · 21:9 (16:9 on phones)</span>
+        </div>
+        <figcaption><b>Figure 1.</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</figcaption>
+      </figure>
+
+      <div class="project-layout">
+
+        <!-- Contents (stays beside the text on wide screens and highlights where you are) -->
+        <nav class="toc" aria-label="Contents">
+          <div class="toc-inner">
+            <p class="toc-title">Contents</p>
+            <ol>
+              <li><a href="#abstract"><span class="toc-num">&ndash;</span>Abstract</a></li>
+              <li><a href="#background"><span class="toc-num">01</span>Background</a></li>
+              <li><a href="#study-system"><span class="toc-num">02</span>Study system</a></li>
+              <li><a href="#data"><span class="toc-num">03</span>Data collection</a></li>
+              <li><a href="#methods"><span class="toc-num">04</span>Methods</a></li>
+              <li><a href="#results"><span class="toc-num">05</span>Results</a></li>
+              <li><a href="#discussion"><span class="toc-num">06</span>Discussion</a></li>
+              <li><a href="#future-work"><span class="toc-num">07</span>Limitations &amp; future work</a></li>
+              <li><a href="#acknowledgements"><span class="toc-num">&ndash;</span>Acknowledgements</a></li>
+              <li><a href="#references"><span class="toc-num">&ndash;</span>References</a></li>
+            </ol>
+          </div>
+        </nav>
+
+        <!-- The write-up -->
+        <article class="article">
+
+          <section id="abstract" class="abstract fade">
+            <span class="section-num">Abstract</span>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+              ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+              laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+          </section>
+
+          <section id="background" class="fade">
+            <span class="section-num">01</span>
+            <h2>Background</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante
+              venenatis dapibus posuere velit aliquet. Duis aute irure dolor in reprehenderit in voluptate
+              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+            <p>
+              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+              laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
+              architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+              aspernatur aut odit aut fugit <a href="#references">[1]</a>.
+            </p>
+            <p>
+              Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci
+              velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
+              quaerat voluptatem <a href="#references">[2]</a>.
+            </p>
+          </section>
+
+          <section id="study-system" class="fade">
+            <span class="section-num">02</span>
+            <h2>Study system</h2>
+            <p>
+              Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam,
+              nisi ut aliquid ex ea commodi consequatur. Quis autem vel eum iure reprehenderit qui in ea
+              voluptate velit esse quam nihil molestiae consequatur.
+            </p>
+            <p>
+              At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+              voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati
+              cupiditate non provident.
+            </p>
+          </section>
+
+          <section id="data" class="fade">
+            <span class="section-num">03</span>
+            <h2>Data collection</h2>
+            <p>
+              Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut
+              et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a
+              sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur.
+            </p>
+
+            <figure class="media figure">
+              <div class="media-frame" style="--ratio: 4 / 3; --tone: linear-gradient(160deg, #3d4a45, #191d1b);">
+                <div class="media-inner">
+                  <img src="images/projects/starling-behaviour/fig-02.jpg" alt="Figure 2 (replace with a short description)"
+                       loading="lazy" onerror="this.classList.add('is-missing')">
+                </div>
+                <span class="media-label">fig-02.jpg · 4:3</span>
+              </div>
+              <figcaption><b>Figure 2.</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation.</figcaption>
+            </figure>
+
+            <ul>
+              <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+              <li>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+              <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</li>
+            </ul>
+          </section>
+
+          <section id="methods" class="fade">
+            <span class="section-num">04</span>
+            <h2>Methods</h2>
+            <p>
+              Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod
+              maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.
+            </p>
+
+            <h3>4.1 Lorem ipsum detection</h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+              labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur.
+            </p>
+
+            <h3>4.2 Dolor sit tracking</h3>
+            <p>
+              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+              id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem.
+            </p>
+
+            <figure class="figure">
+              <div class="figure-pair">
+                <div class="media-frame" style="--ratio: 1 / 1; --tone: linear-gradient(160deg, #4a3f55, #1d1a22);">
+                  <div class="media-inner">
+                    <img src="images/projects/starling-behaviour/fig-03a.jpg" alt="Figure 3a (replace with a short description)"
+                         loading="lazy" onerror="this.classList.add('is-missing')">
+                  </div>
+                  <span class="media-label">fig-03a.jpg · 1:1</span>
+                </div>
+                <div class="media-frame" style="--ratio: 1 / 1; --tone: linear-gradient(160deg, #3d4a45, #191d1b);">
+                  <div class="media-inner">
+                    <img src="images/projects/starling-behaviour/fig-03b.jpg" alt="Figure 3b (replace with a short description)"
+                         loading="lazy" onerror="this.classList.add('is-missing')">
+                  </div>
+                  <span class="media-label">fig-03b.jpg · 1:1</span>
+                </div>
+              </div>
+              <figcaption><b>Figure 3.</b> (a) Lorem ipsum dolor sit amet. (b) Consectetur adipiscing elit, sed do eiusmod tempor.</figcaption>
+            </figure>
+
+            <h3>4.3 Amet behaviour classification</h3>
+            <p>
+              Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi
+              ut aliquid ex ea commodi consequatur. Quis autem vel eum iure reprehenderit qui in ea voluptate.
+            </p>
+            <ol>
+              <li>Lorem ipsum dolor sit amet.</li>
+              <li>Consectetur adipiscing elit, sed do eiusmod.</li>
+              <li>Tempor incididunt ut labore et dolore.</li>
+            </ol>
+          </section>
+
+          <section id="results" class="fade">
+            <span class="section-num">05</span>
+            <h2>Results</h2>
+            <p>
+              At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+              voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint.
+            </p>
+
+            <div class="callout">
+              <p class="callout-title">Key findings</p>
+              <ol>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                <li>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+                <li>Ut enim ad minim veniam, quis nostrud exercitation.</li>
+              </ol>
+            </div>
+
+            <!-- Table: replace the sample rows and 0.00 values with your own results -->
+            <div class="table-wrap">
+              <table>
+                <caption><b>Table 1.</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</caption>
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th class="num">Lorem</th>
+                    <th class="num">Ipsum</th>
+                    <th class="num">Dolor</th>
+                    <th class="num">Samples</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Lorem ipsum</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0</td></tr>
+                  <tr><td>Dolor sit</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0</td></tr>
+                  <tr><td>Amet consectetur</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0</td></tr>
+                  <tr><td>Adipiscing elit</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p>
+              Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores
+              alias consequatur aut perferendis doloribus asperiores repellat.
+            </p>
+
+            <figure class="media figure">
+              <div class="media-frame" style="--ratio: 16 / 9; --tone: linear-gradient(160deg, #4a4538, #1e1c17);">
+                <div class="media-inner">
+                  <img src="images/projects/starling-behaviour/fig-04.jpg" alt="Figure 4 (replace with a short description)"
+                       loading="lazy" onerror="this.classList.add('is-missing')">
+                </div>
+                <span class="media-label">fig-04.jpg · 16:9</span>
+              </div>
+              <figcaption><b>Figure 4.</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</figcaption>
+            </figure>
+          </section>
+
+          <section id="discussion" class="fade">
+            <span class="section-num">06</span>
+            <h2>Discussion</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+              labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+              laboris nisi ut aliquip ex ea commodo consequat <a href="#references">[3]</a>.
+            </p>
+            <p>
+              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+              mollit anim id est laborum.
+            </p>
+            <p>
+              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+              laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
+              architecto beatae vitae dicta sunt explicabo.
+            </p>
+          </section>
+
+          <section id="future-work" class="fade">
+            <span class="section-num">07</span>
+            <h2>Limitations &amp; future work</h2>
+            <p>
+              Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
+              consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+            </p>
+            <ul>
+              <li>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</li>
+              <li>Consectetur, adipisci velit, sed quia non numquam eius modi tempora.</li>
+              <li>Incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</li>
+            </ul>
+          </section>
+
+          <section id="acknowledgements" class="fade">
+            <span class="section-num">Acknowledgements</span>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis
+              nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+          </section>
+
+          <section id="references" class="references fade">
+            <span class="section-num">References</span>
+            <ol>
+              <li>Lorem, I. &amp; Dolor, S. (20XX). Lorem ipsum dolor sit amet, consectetur adipiscing elit. <i>Journal of Lorem Ipsum</i>, 00, 000–000.</li>
+              <li>Amet, C. (20XX). Sed do eiusmod tempor incididunt ut labore. <i>Dolor Magna Aliqua</i>, 00, 000–000.</li>
+              <li>Veniam, Q., Nostrud, E. &amp; Ullamco, L. (20XX). Ut enim ad minim veniam. <i>Lorem Review</i>, 00, 000–000.</li>
+            </ol>
+          </section>
+
+        </article>
+      </div>
+
+      <!-- Previous / next project -->
+      <nav class="project-pager" aria-label="More projects">
+        <a class="pager-link" href="/projects">
+          <span class="pager-label">&larr; Back to</span>
+          <span class="pager-title">All projects</span>
+        </a>
+        <a class="pager-link" href="/corvid-biogeography">
+          <span class="pager-label">Next project &rarr;</span>
+          <span class="pager-title">Corvid Biogeography</span>
+        </a>
+      </nav>
+
+    </div>
+  </main>
+
+  <!-- ============ BOTTOM BAND (same as the homepage) ============ -->
+  <footer class="footer">
+    <p>&copy; <span id="year">2026</span> Ryan Donald</p>
+    <ul class="footer-links">
+      <!-- GitHub: hidden for now. Remove the comment markers to show it
+      <li><a href="https://github.com/rdonald03" target="_blank" rel="noopener">GitHub</a></li>
+      -->
+      <!-- LinkedIn: add your profile link and remove the comment markers to show it
+      <li><a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener">LinkedIn</a></li>
+      -->
+      <li><a href="mailto:ryandonaldrjd@gmail.com">Email</a></li>
+    </ul>
+  </footer>
+
+</body>
+</html>

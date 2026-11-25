@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact · Ryan Donald</title>
+  <meta name="description" content="How to get in touch with Ryan Donald.">
+
+  <!-- Link preview: the card shown when this page is shared (LinkedIn, iMessage, Slack, X, ...).
+       The title and description come from here; the image is images/share/preview.jpg (1200 x 630). -->
+  <link rel="canonical" href="https://rdonald.ca/contact">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ryan Donald">
+  <meta property="og:title" content="Contact · Ryan Donald">
+  <meta property="og:description" content="How to get in touch with Ryan Donald.">
+  <meta property="og:url" content="https://rdonald.ca/contact">
+  <meta property="og:image" content="https://rdonald.ca/images/share/preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Ryan Donald, rdonald.ca">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Tab icon: "RD" in a circle (same files as the homepage) -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Fonts: same as the homepage -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Shared styles (colours, fonts, menu, title band, footer) used by every page -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Shared script (the Projects drop-down in the menu) used by every page -->
+  <script src="site.js" defer></script>
+
+  <!-- Styles only this page needs -->
+  <style>
+    main { flex: 1; }
+
+    .contact {
+      padding: clamp(3rem, 9vh, 6rem) var(--page-x);
+    }
+
+    /* Short introduction above the list */
+    .contact-intro {
+      max-width: 52ch;
+      color: var(--text-body);
+      font-size: clamp(1rem, 1.2vw, 1.1rem);
+      line-height: 1.7;
+    }
+
+    /* ---------- Ways to get in touch: one row each ----------
+       Label on the left, the address in large serif type, and an action on the right. */
+    .contact-list {
+      margin-top: clamp(2.5rem, 7vh, 4rem);
+      list-style: none;
+      border-top: 1px solid var(--line);
+    }
+
+    .contact-row {
+      display: grid;
+      grid-template-columns: minmax(7rem, 12rem) 1fr auto;
+      align-items: center;
+      gap: 0.5rem 2rem;
+      padding-block: clamp(1.5rem, 4vh, 2.25rem);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .contact-label {
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .contact-value {
+      justify-self: start;
+      font-family: var(--font-serif);
+      font-size: clamp(1.4rem, 4vw, 3rem);
+      line-height: 1.1;
+      overflow-wrap: anywhere;   /* a long address wraps instead of running off a phone screen */
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease;
+    }
+
+    .contact-value:hover,
+    .contact-value:focus-visible {
+      border-bottom-color: var(--accent);
+      outline: none;
+    }
+
+    /* Arrow for links that open another site */
+    .contact-arrow {
+      color: var(--muted);
+      font-size: 1.25rem;
+      transition: color 0.2s ease, transform 0.25s ease;
+    }
+    .contact-row:hover .contact-arrow { color: var(--accent); transform: translate(3px, -3px); }
+
+    /* "Copy" button next to the email address */
+    .copy-btn {
+      min-width: 5.5rem;
+      padding: 0.55rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: none;
+      color: var(--text);
+      font: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .copy-btn:hover,
+    .copy-btn:focus-visible {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg);
+      outline: none;
+    }
+
+    /* Phones: label above the address, action beside it */
+    @media (max-width: 640px) {
+      .contact-row { grid-template-columns: 1fr auto; }
+      .contact-label { grid-column: 1 / -1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .contact-arrow,
+      .copy-btn,
+      .contact-value { transition: none; }
+      .contact-row:hover .contact-arrow { transform: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============ TOP BAND: menu + page title ============ -->
+  <header class="top-band">
+    <nav class="nav">
+      <a class="nav-logo" href="/" aria-label="Ryan Donald, home">RD</a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li class="has-dropdown">
+          <!-- "Projects" goes to the All projects page; the small arrow next to it opens the list -->
+          <a href="/projects">Projects</a><button class="nav-toggle" type="button" aria-expanded="false"
+                  aria-controls="projects-menu" aria-label="Show the list of projects">
+            <svg class="nav-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
+          </button>
+
+          <!-- Projects drop-down. TO ADD A PROJECT: copy one <li> ... </li> block below, paste it
+               after the last one, and change the number, short title, full name and link.
+               (The menu is on every page, so add it to each one.) -->
+          <div class="dropdown" id="projects-menu">
+            <div class="dropdown-panel">
+              <ul class="dropdown-list">
+                <li>
+                  <a class="dropdown-item" href="/starling-behaviour">
+                    <span class="dropdown-num">01</span>
+                    <span>
+                      <span class="dropdown-title">Starling Behaviour</span>
+                      <span class="dropdown-desc">Computer Vision for Detecting and Monitoring European Starling Behaviour</span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/corvid-biogeography">
+                    <span class="dropdown-num">02</span>
+                    <span>
+                      <span class="dropdown-title">Corvid Biogeography</span>
+                      <span class="dropdown-desc">Unraveling the Biogeography of Corvids</span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <a class="dropdown-all" href="/projects">All projects <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </li>
+        <li><a href="/contact" aria-current="page">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero">
+      <h1 class="title" id="title">Contact</h1>
+      <!-- Tagline: placeholder, reword in your own voice -->
+      <p class="tagline fade-in">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    </div>
+  </header>
+
+  <!-- ============ WAYS TO GET IN TOUCH ============
+       Each <li class="contact-row"> is one way to reach you. To add one (e.g. LinkedIn),
+       copy a row, or remove the comment markers around the LinkedIn row below. -->
+  <main class="contact">
+
+    <!-- Short introduction: placeholder, reword in your own voice -->
+    <p class="contact-intro fade-in">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+      ut labore et dolore magna aliqua.
+    </p>
+
+    <ul class="contact-list fade-in">
+
+      <li class="contact-row">
+        <span class="contact-label">Email</span>
+        <a class="contact-value" href="mailto:ryandonaldrjd@gmail.com">ryandonaldrjd@gmail.com</a>
+        <!-- Copies the address, for visitors whose computer has no email app set up -->
+        <button class="copy-btn" type="button" data-copy="ryandonaldrjd@gmail.com">Copy</button>
+      </li>
+
+      <!-- GitHub: hidden for now. Remove this comment's first and last lines to show it.
+      <li class="contact-row">
+        <span class="contact-label">GitHub</span>
+        <a class="contact-value" href="https://github.com/rdonald03" target="_blank" rel="noopener">github.com/rdonald03</a>
+        <span class="contact-arrow" aria-hidden="true">&nearr;</span>
+      </li>
+      END GITHUB -->
+
+      <!-- LinkedIn: put your profile link in both places below, then remove this comment's
+           first and last lines to show it.
+      <li class="contact-row">
+        <span class="contact-label">LinkedIn</span>
+        <a class="contact-value" href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener">linkedin.com/in/your-profile</a>
+        <span class="contact-arrow" aria-hidden="true">&nearr;</span>
+      </li>
+      END LINKEDIN -->
+
+    </ul>
+
+    <!-- Announces "Copied" to screen readers -->
+    <p class="sr-only" id="copy-status" aria-live="polite"></p>
+  </main>
+
+  <!-- ============ BOTTOM BAND (same as every page) ============ -->
+  <footer class="footer">
+    <p>&copy; <span id="year">2026</span> Ryan Donald</p>
+    <ul class="footer-links">
+      <!-- GitHub: hidden for now. Remove the comment markers to show it
+      <li><a href="https://github.com/rdonald03" target="_blank" rel="noopener">GitHub</a></li>
+      -->
+      <!-- LinkedIn: add your profile link and remove the comment markers to show it
+      <li><a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener">LinkedIn</a></li>
+      -->
+      <li><a href="mailto:ryandonaldrjd@gmail.com">Email</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // ================= Title: letters rise in one after another (same as the other pages) =================
+    const title = document.getElementById("title");
+    const text = title.textContent;
+    const delayPerLetter = 0.4 / Math.max(text.length - 1, 1); // takes as long as "Ryan Donald" on the homepage
+    title.setAttribute("aria-label", text);
+    title.textContent = "";
+    [...text].forEach((character, index) => {
+      const span = document.createElement("span");
+      span.className = "letter";
+      span.textContent = character;
+      span.setAttribute("aria-hidden", "true");
+      span.style.animationDelay = (index * delayPerLetter) + "s";
+      title.appendChild(span);
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+
+    // ================= "Copy" button: copies the email address =================
+    const status = document.getElementById("copy-status");
+
+    async function copyText(value) {
+      try {
+        await navigator.clipboard.writeText(value);          // modern browsers (on the live https site)
+        return true;
+      } catch (err) {
+        // Older browsers, or a page opened straight from your computer: the old way
+        const box = document.createElement("textarea");
+        box.value = value;
+        box.setAttribute("readonly", "");
+        box.style.position = "fixed";
+        box.style.opacity = "0";
+        document.body.appendChild(box);
+        box.select();
+        const ok = document.execCommand("copy");
+        box.remove();
+        return ok;
+      }
+    }
+
+    document.querySelectorAll(".copy-btn").forEach(button => {
+      button.addEventListener("click", async () => {
+        const ok = await copyText(button.dataset.copy);
+        button.textContent = ok ? "Copied" : "Copy failed";
+        status.textContent = ok ? "Email address copied" : "Couldn't copy the email address";
+        setTimeout(() => { button.textContent = "Copy"; status.textContent = ""; }, 2000);
+      });
+    });
+  </script>
+
+</body>
+</html>

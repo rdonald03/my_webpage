@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects · Ryan Donald</title>
+  <meta name="description" content="Research projects by Ryan Donald.">
+
+  <!-- Link preview: the card shown when this page is shared (LinkedIn, iMessage, Slack, X, ...).
+       The title and description come from here; the image is images/share/preview.jpg (1200 x 630). -->
+  <link rel="canonical" href="https://rdonald.ca/projects">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ryan Donald">
+  <meta property="og:title" content="Projects · Ryan Donald">
+  <meta property="og:description" content="Research projects by Ryan Donald.">
+  <meta property="og:url" content="https://rdonald.ca/projects">
+  <meta property="og:image" content="https://rdonald.ca/images/share/preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Ryan Donald, rdonald.ca">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Tab icon: "RD" in a circle (same files as the homepage) -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Lets the CSS know JavaScript is running (so the fade-ins only hide things when they can show them) -->
+  <script>document.documentElement.classList.add("js");</script>
+
+  <!-- Fonts: same as the homepage -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Shared styles (colours, fonts, menu, title band, footer) used by every page -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Styles shared by the projects pages (cards, project write-ups) -->
+  <link rel="stylesheet" href="project.css">
+
+  <!-- Shared scripts: the Projects drop-down (site.js); title, fade-ins (project.js) -->
+  <script src="site.js" defer></script>
+  <script src="project.js" defer></script>
+</head>
+
+<body>
+
+  <!-- ============ TOP BAND: menu + page title ============ -->
+  <header class="top-band">
+    <nav class="nav">
+      <a class="nav-logo" href="/" aria-label="Ryan Donald, home">RD</a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li class="has-dropdown is-current">
+          <!-- "Projects" goes to the All projects page; the small arrow next to it opens the list -->
+          <a href="/projects" aria-current="page">Projects</a><button class="nav-toggle" type="button" aria-expanded="false"
+                  aria-controls="projects-menu" aria-label="Show the list of projects">
+            <svg class="nav-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
+          </button>
+
+          <!-- Projects drop-down. TO ADD A PROJECT: copy one <li> ... </li> block below, paste it
+               after the last one, and change the number, short title, full name and link.
+               (The menu is on every page, so add it to each one.) -->
+          <div class="dropdown" id="projects-menu">
+            <div class="dropdown-panel">
+              <ul class="dropdown-list">
+                <li>
+                  <a class="dropdown-item" href="/starling-behaviour">
+                    <span class="dropdown-num">01</span>
+                    <span>
+                      <span class="dropdown-title">Starling Behaviour</span>
+                      <span class="dropdown-desc">Computer Vision for Detecting and Monitoring European Starling Behaviour</span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/corvid-biogeography">
+                    <span class="dropdown-num">02</span>
+                    <span>
+                      <span class="dropdown-title">Corvid Biogeography</span>
+                      <span class="dropdown-desc">Unraveling the Biogeography of Corvids</span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <a class="dropdown-all" href="/projects" aria-current="page">All projects <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero">
+      <h1 class="title" id="title">Projects</h1>
+      <!-- Tagline: placeholder, reword in your own voice -->
+      <p class="tagline fade-in">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    </div>
+  </header>
+
+  <!-- ============ PROJECT CARDS ============
+       TO ADD A PROJECT: copy one whole <li> ... </li> card below, paste it after the last one,
+       and change the link, image, number, year/topic, title and description.
+       Thumbnails go in images/projects/<project-name>/thumb.jpg and are shown in a 3:2 shape
+       (photos of another shape are cropped from the centre). -->
+  <main class="wrap">
+    <ul class="project-grid">
+
+      <li class="fade">
+        <a class="project-card" href="/starling-behaviour">
+          <div class="media-frame" style="--tone: linear-gradient(160deg, #46404f, #1c1a22);">
+            <div class="media-inner">
+              <img src="images/projects/starling-behaviour/thumb.jpg" alt="" loading="lazy"
+                   onerror="this.classList.add('is-missing')">
+            </div>
+            <span class="media-label">starling-behaviour/thumb.jpg · 3:2</span>
+          </div>
+          <p class="card-meta"><span>01</span><span>20XX · Computer vision</span></p>
+          <h2 class="card-title">Starling Behaviour</h2>
+          <p class="card-desc">
+            Computer Vision for Detecting and Monitoring European Starling Behaviour.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+          </p>
+          <span class="card-link">View project <span aria-hidden="true">&rarr;</span></span>
+        </a>
+      </li>
+
+      <li class="fade" style="--delay: 0.12s;">
+        <a class="project-card" href="/corvid-biogeography">
+          <div class="media-frame" style="--tone: linear-gradient(160deg, #3b4250, #181b21);">
+            <div class="media-inner">
+              <img src="images/projects/corvid-biogeography/thumb.jpg" alt="" loading="lazy"
+                   onerror="this.classList.add('is-missing')">
+            </div>
+            <span class="media-label">corvid-biogeography/thumb.jpg · 3:2</span>
+          </div>
+          <p class="card-meta"><span>02</span><span>20XX · Biogeography</span></p>
+          <h2 class="card-title">Corvid Biogeography</h2>
+          <p class="card-desc">
+            Unraveling the Biogeography of Corvids.
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.
+          </p>
+          <span class="card-link">View project <span aria-hidden="true">&rarr;</span></span>
+        </a>
+      </li>
+
+    </ul>
+  </main>
+
+  <!-- ============ BOTTOM BAND (same as the homepage) ============ -->
+  <footer class="footer">
+    <p>&copy; <span id="year">2026</span> Ryan Donald</p>
+    <ul class="footer-links">
+      <!-- GitHub: hidden for now. Remove the comment markers to show it
+      <li><a href="https://github.com/rdonald03" target="_blank" rel="noopener">GitHub</a></li>
+      -->
+      <!-- LinkedIn: add your profile link and remove the comment markers to show it
+      <li><a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener">LinkedIn</a></li>
+      -->
+      <li><a href="mailto:ryandonaldrjd@gmail.com">Email</a></li>
+    </ul>
+  </footer>
+
+</body>
+</html>
