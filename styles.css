@@ -99,9 +99,9 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ---------- Projects drop-down ----------
-   Clicking or tapping the word "Projects" goes to the All projects page.
-   The panel opens when the mouse is over "Projects", or when the small arrow beside it is
-   clicked / tapped / pressed with Enter (handled by site.js).
+   With a mouse, clicking the word "Projects" goes to the All projects page and hovering opens the panel.
+   On phones and tablets, tapping "Projects" (or the small arrow) opens the panel instead.
+   With a keyboard, Enter on the small arrow opens it. (The clicking / tapping part is in site.js.)
    The panel's right edge lines up with the right page margin, so it never runs off the screen. */
 .has-dropdown { position: static; } /* so the panel is placed relative to the whole menu, not just "Projects" */
 
