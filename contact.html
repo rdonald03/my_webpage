@@ -153,9 +153,7 @@
             <svg class="nav-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
           </button>
 
-          <!-- Projects drop-down. TO ADD A PROJECT: copy one <li> ... </li> block below, paste it
-               after the last one, and change the number, short title, full name and link.
-               (The menu is on every page, so add it to each one.) -->
+          <!-- Projects drop-down -->
           <div class="dropdown" id="projects-menu">
             <div class="dropdown-panel">
               <ul class="dropdown-list">
@@ -172,8 +170,8 @@
                   <a class="dropdown-item" href="/corvid-biogeography">
                     <span class="dropdown-num">02</span>
                     <span>
-                      <span class="dropdown-title">Corvid Biogeography</span>
-                      <span class="dropdown-desc">Unraveling the Biogeography of Corvids</span>
+                      <span class="dropdown-title"><i>Corvus</i> Biogeography</span>
+                      <span class="dropdown-desc">Unravelling the Biogeography of <i>Corvus</i></span>
                     </span>
                   </a>
                 </li>
@@ -188,17 +186,13 @@
 
     <div class="hero">
       <h1 class="title" id="title">Contact</h1>
-      <!-- Tagline: placeholder, reword in your own voice -->
       <p class="tagline fade-in">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </div>
   </header>
 
-  <!-- ============ WAYS TO GET IN TOUCH ============
-       Each <li class="contact-row"> is one way to reach you. To add one (e.g. LinkedIn),
-       copy a row, or remove the comment markers around the LinkedIn row below. -->
+  <!-- ============ WAYS TO GET IN TOUCH ============ -->
   <main class="contact">
 
-    <!-- Short introduction: placeholder, reword in your own voice -->
     <p class="contact-intro fade-in">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
       ut labore et dolore magna aliqua.
@@ -213,22 +207,13 @@
         <button class="copy-btn" type="button" data-copy="ryandonaldrjd@gmail.com">Copy</button>
       </li>
 
-      <!-- GitHub: hidden for now. Remove this comment's first and last lines to show it.
+      <!-- GitHub (not shown yet)
       <li class="contact-row">
         <span class="contact-label">GitHub</span>
         <a class="contact-value" href="https://github.com/rdonald03" target="_blank" rel="noopener">github.com/rdonald03</a>
         <span class="contact-arrow" aria-hidden="true">&nearr;</span>
       </li>
       END GITHUB -->
-
-      <!-- LinkedIn: put your profile link in both places below, then remove this comment's
-           first and last lines to show it.
-      <li class="contact-row">
-        <span class="contact-label">LinkedIn</span>
-        <a class="contact-value" href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener">linkedin.com/in/your-profile</a>
-        <span class="contact-arrow" aria-hidden="true">&nearr;</span>
-      </li>
-      END LINKEDIN -->
 
     </ul>
 
@@ -240,11 +225,8 @@
   <footer class="footer">
     <p>&copy; <span id="year">2026</span> Ryan Donald</p>
     <ul class="footer-links">
-      <!-- GitHub: hidden for now. Remove the comment markers to show it
+      <!-- GitHub link (not shown yet)
       <li><a href="https://github.com/rdonald03" target="_blank" rel="noopener">GitHub</a></li>
-      -->
-      <!-- LinkedIn: add your profile link and remove the comment markers to show it
-      <li><a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener">LinkedIn</a></li>
       -->
       <li><a href="mailto:ryandonaldrjd@gmail.com">Email</a></li>
     </ul>
@@ -267,7 +249,6 @@
     });
 
     document.getElementById("year").textContent = new Date().getFullYear();
-
 
     // ================= "Copy" button: copies the email address =================
     const status = document.getElementById("copy-status");

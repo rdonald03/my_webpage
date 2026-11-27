@@ -41,7 +41,7 @@
     :root {
       --radius: 3px;          /* image corner rounding (matches the homepage photos) */
 
-      /* ---------- ABOUT PAGE SETTINGS (tweak these) ---------- */
+      /* ---------- ABOUT PAGE SETTINGS ---------- */
       --section-space: clamp(4.5rem, 14vh, 10rem); /* empty space between sections */
       --parallax-amount: 6%;  /* how far images drift while scrolling. 0% = off */
       --reveal-time: 1s;      /* how long the fade-up / image reveal takes */
@@ -349,9 +349,7 @@
             <svg class="nav-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
           </button>
 
-          <!-- Projects drop-down. TO ADD A PROJECT: copy one <li> ... </li> block below, paste it
-               after the last one, and change the number, short title, full name and link.
-               (The menu is on every page, so add it to each one.) -->
+          <!-- Projects drop-down -->
           <div class="dropdown" id="projects-menu">
             <div class="dropdown-panel">
               <ul class="dropdown-list">
@@ -368,8 +366,8 @@
                   <a class="dropdown-item" href="/corvid-biogeography">
                     <span class="dropdown-num">02</span>
                     <span>
-                      <span class="dropdown-title">Corvid Biogeography</span>
-                      <span class="dropdown-desc">Unraveling the Biogeography of Corvids</span>
+                      <span class="dropdown-title"><i>Corvus</i> Biogeography</span>
+                      <span class="dropdown-desc">Unravelling the Biogeography of <i>Corvus</i></span>
                     </span>
                   </a>
                 </li>
@@ -388,13 +386,7 @@
     </div>
   </header>
 
-  <!-- ============ CONTENT ============
-       HOW TO ADD YOUR PHOTOS
-       Put them in images/about/ named about-01.jpg ... about-05.jpg.
-       Each image's shape is shown on its placeholder (e.g. "4:5"); photos of a different
-       shape are cropped from the centre to fit.
-       Edit alt="..." (hidden description) and the caption text under each one.
-       To change a placeholder colour, edit --tone on its <figure>. -->
+  <!-- ============ CONTENT ============ -->
   <main>
 
     <!-- ---------- 01 Introduction: big opening line, portrait photo + text ---------- -->
@@ -412,7 +404,7 @@
                 style="--ratio: 4 / 5; --tone: linear-gradient(160deg, #4b5560, #1f242a);">
           <div class="media-frame">
             <div class="media-inner">
-              <img src="images/about/about-01.jpg" alt="Photo 1 (replace with a short description)"
+              <img src="images/about/about-01.jpg" alt="Photo 1"
                    loading="lazy" onerror="this.classList.add('is-missing')">
             </div>
             <span class="media-label">about-01.jpg · 4:5</span>
@@ -441,7 +433,7 @@
               style="--tone: linear-gradient(170deg, #5a4a3c, #241d18);">
         <div class="media-frame">
           <div class="media-inner">
-            <img src="images/about/about-02.jpg" alt="Photo 2 (replace with a short description)"
+            <img src="images/about/about-02.jpg" alt="Photo 2"
                  loading="lazy" onerror="this.classList.add('is-missing')">
           </div>
           <span class="media-label">about-02.jpg · 21:9 (4:3 on phones)</span>
@@ -479,7 +471,7 @@
                 style="--ratio: 2 / 3; --tone: linear-gradient(160deg, #3f4d45, #1b221e);">
           <div class="media-frame">
             <div class="media-inner">
-              <img src="images/about/about-03.jpg" alt="Photo 3 (replace with a short description)"
+              <img src="images/about/about-03.jpg" alt="Photo 3"
                    loading="lazy" onerror="this.classList.add('is-missing')">
             </div>
             <span class="media-label">about-03.jpg · 2:3</span>
@@ -514,7 +506,7 @@
                   style="--ratio: 3 / 4; --tone: linear-gradient(160deg, #5b5148, #26221f);">
             <div class="media-frame">
               <div class="media-inner">
-                <img src="images/about/about-04.jpg" alt="Photo 4 (replace with a short description)"
+                <img src="images/about/about-04.jpg" alt="Photo 4"
                      loading="lazy" onerror="this.classList.add('is-missing')">
               </div>
               <span class="media-label">about-04.jpg · 3:4</span>
@@ -526,7 +518,7 @@
                   style="--ratio: 3 / 4; --tone: linear-gradient(160deg, #464660, #1e1e2a); --delay: 0.15s;">
             <div class="media-frame">
               <div class="media-inner">
-                <img src="images/about/about-05.jpg" alt="Photo 5 (replace with a short description)"
+                <img src="images/about/about-05.jpg" alt="Photo 5"
                      loading="lazy" onerror="this.classList.add('is-missing')">
               </div>
               <span class="media-label">about-05.jpg · 3:4</span>
@@ -557,7 +549,6 @@
 
         <div class="contact-body reveal" style="--delay: 0.1s;">
           <p class="body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          <!-- Your email address (appears twice: the link and the visible text) -->
           <p style="margin-top: 1.5rem;">
             <a class="contact-link" href="mailto:ryandonaldrjd@gmail.com">ryandonaldrjd@gmail.com <span aria-hidden="true">&rarr;</span></a>
           </p>
@@ -572,11 +563,8 @@
     <p>&copy; <span id="year">2026</span> Ryan Donald</p>
 
     <ul class="footer-links">
-      <!-- GitHub: hidden for now. Remove the comment markers to show it
+      <!-- GitHub link (not shown yet)
       <li><a href="https://github.com/rdonald03" target="_blank" rel="noopener">GitHub</a></li>
-      -->
-      <!-- LinkedIn: add your profile link and remove the comment markers to show it
-      <li><a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener">LinkedIn</a></li>
       -->
       <li><a href="mailto:ryandonaldrjd@gmail.com">Email</a></li>
     </ul>
@@ -604,7 +592,6 @@
 
     document.getElementById("year").textContent = new Date().getFullYear();
 
-
     // ================= Reveal text and images as they scroll into view =================
     const revealItems = document.querySelectorAll(".reveal, .reveal-media");
 
@@ -623,7 +610,6 @@
       revealItems.forEach(item => item.classList.add("is-visible"));
     }
 
-
     // ================= Pull quote: wrap each word so it can light up =================
     const quote = document.querySelector("[data-highlight]");
     let words = [];
@@ -640,7 +626,6 @@
       });
       words = [...quote.querySelectorAll(".word")];
     }
-
 
     // ================= Effects that follow the scroll position =================
     const progressBar = document.querySelector(".progress");

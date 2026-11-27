@@ -1,7 +1,7 @@
 /* =========================================================================
    PROJECT STYLES — shared by projects.html (the "All projects" page) and every
    individual project page (starling-behaviour.html, corvid-biogeography.html, ...).
-   Loaded after styles.css. Change something here and every project page follows.
+   Loaded after styles.css.
    ========================================================================= */
 
 :root {
@@ -332,6 +332,9 @@ main { flex: 1; }
 }
 .figure figcaption b { color: var(--text); font-weight: 500; }
 
+/* A tall or square figure: kept narrower so it doesn't fill the whole screen height */
+.figure-narrow { max-width: 40rem; }
+
 /* Two images side by side, sharing one caption */
 .figure-pair {
   display: grid;
@@ -397,12 +400,42 @@ main { flex: 1; }
 }
 .article .callout ol { margin-top: 0.75rem; }
 
+/* ---------- Label / value lists (e.g. Taxonomy, Facts) ---------- */
+.data-list {
+  max-width: 34rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.data-list > div {
+  display: grid;
+  grid-template-columns: minmax(7rem, 11rem) 1fr;
+  gap: 1rem;
+  padding-block: 0.75rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.data-list dt {
+  align-self: center;
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.data-list dd {
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
 /* ---------- References ---------- */
 .references ol { padding-left: 1.6em; }
 .article .references li {
   color: var(--muted);
   font-size: 0.88rem;
   line-height: 1.6;
+  overflow-wrap: anywhere;   /* long web addresses wrap instead of running off a phone screen */
 }
 
 /* ---------- Previous / next project at the bottom ---------- */

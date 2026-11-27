@@ -7,20 +7,34 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 // ================= Page title: letters rise in one after another (same as the other pages) =================
 // The whole title always takes about as long as "Ryan Donald" on the homepage,
 // however many letters it has.
+// Any formatting inside the title is kept, e.g. <i>Corvus</i> stays in italics.
 const title = document.getElementById("title");
 if (title) {
-  const text = title.textContent.trim();
-  const delayPerLetter = Math.min(0.1, 0.4 / Math.max(text.length - 1, 1));
-  title.setAttribute("aria-label", text);   // screen readers still read it as one phrase
-  title.textContent = "";
-  [...text].forEach((character, index) => {
-    const span = document.createElement("span");
-    span.className = "letter";
-    span.textContent = character;
-    span.setAttribute("aria-hidden", "true");
-    span.style.animationDelay = (index * delayPerLetter) + "s";
-    title.appendChild(span);
-  });
+  const letters = [];
+
+  // Replace every piece of text in the title with one <span> per letter
+  (function wrapLetters(node) {
+    [...node.childNodes].forEach(child => {
+      if (child.nodeType === Node.TEXT_NODE) {
+        const pieces = document.createDocumentFragment();
+        [...child.textContent].forEach(character => {
+          const span = document.createElement("span");
+          span.className = "letter";
+          span.textContent = character;
+          span.setAttribute("aria-hidden", "true");
+          letters.push(span);
+          pieces.appendChild(span);
+        });
+        child.replaceWith(pieces);
+      } else if (child.nodeType === Node.ELEMENT_NODE) {
+        wrapLetters(child);   // e.g. the letters inside <i>...</i>
+      }
+    });
+  })(title);
+
+  title.setAttribute("aria-label", title.textContent.trim());   // screen readers still read it as one phrase
+  const delayPerLetter = Math.min(0.1, 0.4 / Math.max(letters.length - 1, 1));
+  letters.forEach((span, index) => { span.style.animationDelay = (index * delayPerLetter) + "s"; });
 }
 
 // Keep the footer year current.

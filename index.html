@@ -37,7 +37,7 @@
   <!-- Styles only this page needs -->
   <style>
     :root {
-      /* ---------- PHOTO STRIP SETTINGS (tweak these) ---------- */
+      /* ---------- PHOTO STRIP SETTINGS ---------- */
       --strip-seconds-per-photo: 10; /* speed: seconds for the strip to move along by one photo.
                                         Bigger = slower. Adding more photos doesn't change the speed. */
       --photo-width: clamp(120px, min(24vw, 34vh), 340px);
@@ -67,7 +67,7 @@
     .buttons.fade-in { animation-delay: 0.75s; }
     .gallery.fade-in { animation-delay: 0.8s; }
 
-    /* ---------- Buttons (currently commented out in the HTML; kept for when you restore them) ----------
+    /* ---------- Buttons (not currently shown) ----------
        Thin outline; on hover they fill with the accent colour. */
     .buttons {
       margin-top: 2rem;
@@ -428,7 +428,7 @@
   <!-- ============ 1. TOP BAND: menu, title, tagline ============ -->
   <header class="top-band">
 
-    <!-- Top menu: change the names and links whenever you like -->
+    <!-- Top menu -->
     <nav class="nav">
       <a class="nav-logo" href="/" aria-label="Ryan Donald, home">RD</a>
       <ul class="nav-links">
@@ -441,9 +441,7 @@
             <svg class="nav-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
           </button>
 
-          <!-- Projects drop-down. TO ADD A PROJECT: copy one <li> ... </li> block below, paste it
-               after the last one, and change the number, short title, full name and link.
-               (The menu is on every page, so add it to each one.) -->
+          <!-- Projects drop-down -->
           <div class="dropdown" id="projects-menu">
             <div class="dropdown-panel">
               <ul class="dropdown-list">
@@ -460,8 +458,8 @@
                   <a class="dropdown-item" href="/corvid-biogeography">
                     <span class="dropdown-num">02</span>
                     <span>
-                      <span class="dropdown-title">Corvid Biogeography</span>
-                      <span class="dropdown-desc">Unraveling the Biogeography of Corvids</span>
+                      <span class="dropdown-title"><i>Corvus</i> Biogeography</span>
+                      <span class="dropdown-desc">Unravelling the Biogeography of <i>Corvus</i></span>
                     </span>
                   </a>
                 </li>
@@ -475,15 +473,11 @@
     </nav>
 
     <div class="hero">
-      <!-- Change the title text here; the animation adapts automatically -->
       <h1 class="title" id="title">Ryan Donald</h1>
 
-      <!-- Tagline: a first draft, reword it in your own voice -->
       <p class="tagline fade-in">Photographs from the places I've been.</p>
 
-      <!-- To bring the buttons back, delete the "BUTTONS — uncomment to restore" line
-           and the "END BUTTONS" line below. -->
-      <!-- BUTTONS — uncomment to restore
+      <!-- Buttons (not shown)
       <div class="buttons fade-in">
         <a class="btn" href="#">Button One</a>
         <a class="btn" href="#">Button Two</a>
@@ -493,19 +487,7 @@
     </div>
   </header>
 
-  <!-- ============ 2. MIDDLE AREA: looping photo strip ============
-       HOW TO ADD YOUR PHOTOS
-       - Small versions (for the strip):  images/thumbs/photo-01.jpg, photo-02.jpg, ...
-       - Large versions (enlarged view):  images/full/photo-01.jpg,   photo-02.jpg, ...
-       - alt="..."          describes the photo for screen readers (not shown on the page).
-       - data-caption="..." is the caption shown under the enlarged photo, e.g. "Niseko, Japan — 2025".
-                            Leave it empty (data-caption="") for no caption.
-       Until a file exists, a plain grey placeholder shows instead.
-
-       TO ADD MORE PHOTOS: copy one whole <button class="photo"> ... </button> block, paste it
-       after the last one, and change the three file names/numbers in it. That's all: the strip,
-       the enlarged view and the "03 / 06" counter adapt automatically to any number of photos.
-       Only edit the photos below: the script makes the looping copies itself. -->
+  <!-- ============ 2. MIDDLE AREA: looping photo strip ============ -->
   <main class="gallery fade-in">
     <div class="strip" id="strip" role="region" aria-label="Photo gallery">
       <div class="strip-track">
@@ -519,31 +501,31 @@
 
           <button class="photo" type="button" data-full="images/full/photo-02.jpg"
                   data-caption="Place — Year">
-            <img src="images/thumbs/photo-02.jpg" alt="Photo 2 (replace with a short description)"
+            <img src="images/thumbs/photo-02.jpg" alt="Photo 2"
                  width="400" height="600" loading="lazy" onerror="this.classList.add('is-missing')">
           </button>
 
           <button class="photo" type="button" data-full="images/full/photo-03.jpg"
                   data-caption="Place — Year">
-            <img src="images/thumbs/photo-03.jpg" alt="Photo 3 (replace with a short description)"
+            <img src="images/thumbs/photo-03.jpg" alt="Photo 3"
                  width="400" height="600" loading="lazy" onerror="this.classList.add('is-missing')">
           </button>
 
           <button class="photo" type="button" data-full="images/full/photo-04.jpg"
                   data-caption="Place — Year">
-            <img src="images/thumbs/photo-04.jpg" alt="Photo 4 (replace with a short description)"
+            <img src="images/thumbs/photo-04.jpg" alt="Photo 4"
                  width="400" height="600" loading="lazy" onerror="this.classList.add('is-missing')">
           </button>
 
           <button class="photo" type="button" data-full="images/full/photo-05.jpg"
                   data-caption="Place — Year">
-            <img src="images/thumbs/photo-05.jpg" alt="Photo 5 (replace with a short description)"
+            <img src="images/thumbs/photo-05.jpg" alt="Photo 5"
                  width="400" height="600" loading="lazy" onerror="this.classList.add('is-missing')">
           </button>
 
           <button class="photo" type="button" data-full="images/full/photo-06.jpg"
                   data-caption="Place — Year">
-            <img src="images/thumbs/photo-06.jpg" alt="Photo 6 (replace with a short description)"
+            <img src="images/thumbs/photo-06.jpg" alt="Photo 6"
                  width="400" height="600" loading="lazy" onerror="this.classList.add('is-missing')">
           </button>
 
@@ -589,11 +571,8 @@
     <p>&copy; <span id="year">2026</span> Ryan Donald</p>
 
     <ul class="footer-links">
-      <!-- GitHub: hidden for now. Remove the comment markers to show it
+      <!-- GitHub link (not shown yet)
       <li><a href="https://github.com/rdonald03" target="_blank" rel="noopener">GitHub</a></li>
-      -->
-      <!-- LinkedIn: add your profile link and remove the comment markers to show it
-      <li><a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener">LinkedIn</a></li>
       -->
       <li><a href="mailto:ryandonaldrjd@gmail.com">Email</a></li>
     </ul>
@@ -619,7 +598,6 @@
 
     // Keep the footer year current.
     document.getElementById("year").textContent = new Date().getFullYear();
-
 
     // ================= Photo strip: setup =================
     const strip = document.getElementById("strip");
@@ -663,7 +641,6 @@
     measure();
     new ResizeObserver(measure).observe(strip);
 
-
     // ================= Photo strip: when it should stand still =================
     let hovering = false;       // mouse is over the strip
     let keyboardFocus = false;  // a photo has keyboard focus
@@ -691,7 +668,6 @@
       }
     });
     strip.addEventListener("focusout", () => { keyboardFocus = false; });
-
 
     // ================= Photo strip: dragging with a mouse or finger =================
     let dragMoved = false;      // true once the pointer has moved far enough to count as a drag
@@ -749,7 +725,6 @@
     strip.addEventListener("pointercancel", endDrag);
     strip.addEventListener("dragstart", e => e.preventDefault());
 
-
     // ================= Photo strip: movement, once per screen refresh =================
     let lastTime = 0;
 
@@ -783,7 +758,6 @@
       const photo = event.target.closest(".photo");
       if (photo) openLightbox(Number(photo.dataset.index));
     });
-
 
     // ================= Enlarged view (lightbox) =================
     const lightbox = document.getElementById("lightbox");
@@ -904,7 +878,6 @@
       if (event.key === "ArrowLeft")  { event.preventDefault(); showPhoto(current - 1); }
       if (event.key === "ArrowRight") { event.preventDefault(); showPhoto(current + 1); }
     });
-
 
     // ================= Enlarged view: drag / swipe =================
     // SIDEWAYS (mouse or finger): the photo follows. Let go after dragging far enough (or after a

@@ -8,16 +8,10 @@
   <!-- Keep this page out of Google search results -->
   <meta name="robots" content="noindex">
 
-  <!--
-    PAGE NOT FOUND (404)
-    GitHub Pages shows this page automatically whenever someone visits an address on
-    rdonald.ca that doesn't exist (a typo, an old link, a page that was renamed...).
-    To see it: visit any made-up address on the live site, e.g. https://rdonald.ca/test-404
-  -->
+  <!-- Page not found (404): shown by GitHub Pages for any address on the site that doesn't exist -->
 
-  <!-- Because this page can appear at ANY address (even rdonald.ca/a/b/c), this tells the browser
-       where the site's files are: the site's root on the live site, or the folder this file is in
-       when it's opened straight from your computer. Keep it above the links below. -->
+  <!-- This page can appear at any address, so the location of the site's files is set first:
+       the site root when live, or this file's folder when opened locally -->
   <script>
     (function () {
       var base = document.createElement("base");
@@ -111,9 +105,7 @@
             <svg class="nav-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
           </button>
 
-          <!-- Projects drop-down. TO ADD A PROJECT: copy one <li> ... </li> block below, paste it
-               after the last one, and change the number, short title, full name and link.
-               (The menu is on every page, so add it to each one.) -->
+          <!-- Projects drop-down -->
           <div class="dropdown" id="projects-menu">
             <div class="dropdown-panel">
               <ul class="dropdown-list">
@@ -130,8 +122,8 @@
                   <a class="dropdown-item" href="/corvid-biogeography">
                     <span class="dropdown-num">02</span>
                     <span>
-                      <span class="dropdown-title">Corvid Biogeography</span>
-                      <span class="dropdown-desc">Unraveling the Biogeography of Corvids</span>
+                      <span class="dropdown-title"><i>Corvus</i> Biogeography</span>
+                      <span class="dropdown-desc">Unravelling the Biogeography of <i>Corvus</i></span>
                     </span>
                   </a>
                 </li>
@@ -168,11 +160,8 @@
   <footer class="footer">
     <p>&copy; <span id="year">2026</span> Ryan Donald</p>
     <ul class="footer-links">
-      <!-- GitHub: hidden for now. Remove the comment markers to show it
+      <!-- GitHub link (not shown yet)
       <li><a href="https://github.com/rdonald03" target="_blank" rel="noopener">GitHub</a></li>
-      -->
-      <!-- LinkedIn: add your profile link and remove the comment markers to show it
-      <li><a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener">LinkedIn</a></li>
       -->
       <li><a href="mailto:ryandonaldrjd@gmail.com">Email</a></li>
     </ul>

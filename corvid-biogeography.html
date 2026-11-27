@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Corvid Biogeography · Ryan Donald</title>
-  <meta name="description" content="Unraveling the Biogeography of Corvids — a research project by Ryan Donald.">
+  <title>Corvus Biogeography · Ryan Donald</title>
+  <meta name="description" content="Unravelling the Biogeography of Corvus — a research project by Ryan Donald.">
 
   <!-- Link preview: the card shown when this page is shared (LinkedIn, iMessage, Slack, X, ...).
        The title and description come from here; the image is images/share/preview.jpg (1200 x 630). -->
   <link rel="canonical" href="https://rdonald.ca/corvid-biogeography">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Ryan Donald">
-  <meta property="og:title" content="Corvid Biogeography · Ryan Donald">
-  <meta property="og:description" content="Unraveling the Biogeography of Corvids — a research project by Ryan Donald.">
+  <meta property="og:title" content="Corvus Biogeography · Ryan Donald">
+  <meta property="og:description" content="Unravelling the Biogeography of Corvus — a research project by Ryan Donald.">
   <meta property="og:url" content="https://rdonald.ca/corvid-biogeography">
   <meta property="og:image" content="https://rdonald.ca/images/share/preview.jpg">
   <meta property="og:image:width" content="1200">
@@ -59,9 +59,7 @@
             <svg class="nav-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
           </button>
 
-          <!-- Projects drop-down. TO ADD A PROJECT: copy one <li> ... </li> block below, paste it
-               after the last one, and change the number, short title, full name and link.
-               (The menu is on every page, so add it to each one.) -->
+          <!-- Projects drop-down -->
           <div class="dropdown" id="projects-menu">
             <div class="dropdown-panel">
               <ul class="dropdown-list">
@@ -78,8 +76,8 @@
                   <a class="dropdown-item" href="/corvid-biogeography" aria-current="page">
                     <span class="dropdown-num">02</span>
                     <span>
-                      <span class="dropdown-title">Corvid Biogeography</span>
-                      <span class="dropdown-desc">Unraveling the Biogeography of Corvids</span>
+                      <span class="dropdown-title"><i>Corvus</i> Biogeography</span>
+                      <span class="dropdown-desc">Unravelling the Biogeography of <i>Corvus</i></span>
                     </span>
                   </a>
                 </li>
@@ -95,46 +93,34 @@
     <div class="hero">
       <div>
         <a class="crumb" href="/projects">&larr; All projects</a>
-        <h1 class="title" id="title">Corvid Biogeography</h1>
+        <!-- <i>...</i> keeps the genus name in italics -->
+        <h1 class="title" id="title"><i>Corvus</i> Biogeography</h1>
       </div>
-      <p class="tagline fade-in">Unraveling the Biogeography of Corvids</p>
+      <p class="tagline fade-in">Unravelling the Biogeography of <i>Corvus</i></p>
     </div>
   </header>
 
-  <!-- ============ CONTENT ============
-       HOW TO FILL THIS PAGE IN
-       - Key facts: edit the <dt> labels and <dd> values below (delete any row you don't need).
-       - Text: replace the Lorem ipsum. Each <section> is one numbered part of the write-up.
-         If you add, remove or rename a section, update the Contents list to match
-         (each link's href="#..." must match its section's id="...").
-       - Images go in images/projects/corvid-biogeography/ (fig-01.jpg, fig-02.jpg, ...).
-         Each placeholder shows its file name and shape. Edit alt="..." to describe each image.
-       - Figure and table captions sit under each one; keep the numbering in order. -->
+  <!-- ============ CONTENT ============ -->
   <main>
     <div class="wrap">
 
       <!-- Key facts -->
       <dl class="facts fade">
-        <div><dt>Year</dt><dd>20XX</dd></div>
-        <div><dt>Role</dt><dd>Lorem ipsum dolor</dd></div>
-        <div><dt>Institution</dt><dd>Lorem ipsum University</dd></div>
-        <div><dt>Methods</dt><dd>Lorem ipsum, dolor sit, amet consectetur</dd></div>
-        <div><dt>Tools</dt><dd>Lorem · Ipsum · Dolor</dd></div>
-        <!-- Links row: put in your paper / code links and remove the comment markers to show it
-        <div><dt>Links</dt><dd><a href="PAPER-LINK">Paper</a> · <a href="CODE-LINK">Code</a></dd></div>
-        -->
+        <div><dt>Year</dt><dd>2023</dd></div>
+        <div><dt>Course</dt><dd>BIOL 351 – Global Biogeography</dd></div>
+        <div><dt>Institution</dt><dd>Capilano University</dd></div>
+        <div><dt>Format</dt><dd>Poster</dd></div>
       </dl>
 
       <!-- Large opening image -->
       <figure class="media lead-figure figure fade">
         <div class="media-frame" style="--tone: linear-gradient(160deg, #3b4250, #181b21);">
           <div class="media-inner">
-            <img src="images/projects/corvid-biogeography/fig-01.jpg" alt="Figure 1 (replace with a short description)"
+            <img src="images/projects/corvid-biogeography/cover.jpg" alt="Cover photo"
                  onerror="this.classList.add('is-missing')">
           </div>
-          <span class="media-label">fig-01.jpg · 21:9 (16:9 on phones)</span>
+          <span class="media-label">cover.jpg · 21:9 (16:9 on phones)</span>
         </div>
-        <figcaption><b>Figure 1.</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</figcaption>
       </figure>
 
       <div class="project-layout">
@@ -144,11 +130,12 @@
           <div class="toc-inner">
             <p class="toc-title">Contents</p>
             <ol>
-              <li><a href="#abstract"><span class="toc-num">&ndash;</span>Abstract</a></li>
-              <li><a href="#background"><span class="toc-num">01</span>Background</a></li>
-              <li><a href="#methods"><span class="toc-num">02</span>Data &amp; methods</a></li>
-              <li><a href="#results"><span class="toc-num">03</span>Results</a></li>
-              <li><a href="#discussion"><span class="toc-num">04</span>Discussion</a></li>
+              <li><a href="#introduction"><span class="toc-num">01</span>Introduction</a></li>
+              <li><a href="#taxonomy"><span class="toc-num">02</span>Taxonomy</a></li>
+              <li><a href="#facts"><span class="toc-num">03</span>Facts</a></li>
+              <li><a href="#distribution"><span class="toc-num">04</span>Distribution</a></li>
+              <li><a href="#phylogeny"><span class="toc-num">05</span>Phylogeny</a></li>
+              <li><a href="#this-version"><span class="toc-num">&ndash;</span>About this version</a></li>
               <li><a href="#references"><span class="toc-num">&ndash;</span>References</a></li>
             </ol>
           </div>
@@ -157,8 +144,9 @@
         <!-- The write-up -->
         <article class="article">
 
-          <section id="abstract" class="abstract fade">
-            <span class="section-num">Abstract</span>
+          <section id="introduction" class="fade">
+            <span class="section-num">01</span>
+            <h2>Introduction</h2>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
               ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -166,81 +154,107 @@
             </p>
           </section>
 
-          <section id="background" class="fade">
-            <span class="section-num">01</span>
-            <h2>Background</h2>
+          <section id="taxonomy" class="fade">
+            <span class="section-num">02</span>
+            <h2>Taxonomy</h2>
+            <dl class="data-list">
+              <div><dt>Domain</dt><dd>Eukarya</dd></div>
+              <div><dt>Kingdom</dt><dd>Animalia</dd></div>
+              <div><dt>Phylum</dt><dd>Chordata</dd></div>
+              <div><dt>Class</dt><dd>Aves</dd></div>
+              <div><dt>Order</dt><dd>Passeriformes</dd></div>
+              <div><dt>Family</dt><dd>Corvidae</dd></div>
+              <div><dt>Genus</dt><dd>Corvus</dd></div>
+            </dl>
+          </section>
+
+          <section id="facts" class="fade">
+            <span class="section-num">03</span>
+            <h2>Facts</h2>
+            <dl class="data-list">
+              <div><dt>Life Span</dt><dd>Ranging from 4 to 30 years depending on the species</dd></div>
+              <div><dt>Average Weight</dt><dd>200g – 1.5kg</dd></div>
+              <div><dt>Diet</dt><dd>Omnivorous Scavengers</dd></div>
+            </dl>
+          </section>
+
+          <section id="distribution" class="fade">
+            <span class="section-num">04</span>
+            <h2>Distribution</h2>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante
               venenatis dapibus posuere velit aliquet. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur <a href="#references">[1]</a>.
+              velit esse cillum dolore eu fugiat nulla pariatur.
             </p>
+
+            <figure class="media figure">
+              <div class="media-frame" style="--ratio: 630 / 367;">
+                <div class="media-inner">
+                  <img src="images/projects/corvid-biogeography/fig-01.jpg"
+                       alt="World map depicting the distribution of the genus Corvus"
+                       loading="lazy" onerror="this.classList.add('is-missing')">
+                </div>
+                <span class="media-label">fig-01.jpg</span>
+              </div>
+              <figcaption><b>Figure 1.</b> World map depicting the distribution of the genus <i>Corvus</i>. (Niche expansion and adaptive divergence in the global radiation of crows and ravens). 2022</figcaption>
+            </figure>
+          </section>
+
+          <section id="phylogeny" class="fade">
+            <span class="section-num">05</span>
+            <h2>Phylogeny</h2>
             <p>
               Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
               laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
               architecto beatae vitae dicta sunt explicabo.
             </p>
-          </section>
 
-          <section id="methods" class="fade">
-            <span class="section-num">02</span>
-            <h2>Data &amp; methods</h2>
-            <p>
-              Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam,
-              nisi ut aliquid ex ea commodi consequatur. Quis autem vel eum iure reprehenderit qui in ea
-              voluptate velit esse quam nihil molestiae consequatur.
-            </p>
-            <ul>
-              <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-              <li>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
-              <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</li>
-            </ul>
-          </section>
-
-          <section id="results" class="fade">
-            <span class="section-num">03</span>
-            <h2>Results</h2>
-            <p>
-              At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-              voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint.
-            </p>
-
-            <figure class="media figure">
-              <div class="media-frame" style="--ratio: 16 / 9; --tone: linear-gradient(160deg, #36443f, #171c1a);">
+            <figure class="media figure figure-narrow">
+              <div class="media-frame" style="--ratio: 1200 / 1237;">
                 <div class="media-inner">
-                  <img src="images/projects/corvid-biogeography/fig-02.jpg" alt="Figure 2 (replace with a short description)"
+                  <img src="images/projects/corvid-biogeography/fig-02.jpg"
+                       alt="Phylogenetic tree of the genus Corvus"
                        loading="lazy" onerror="this.classList.add('is-missing')">
                 </div>
-                <span class="media-label">fig-02.jpg · 16:9</span>
+                <span class="media-label">fig-02.jpg</span>
               </div>
-              <figcaption><b>Figure 2.</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation.</figcaption>
+              <figcaption><b>Figure 2.</b> Phylogenetic tree of the genus <i>Corvus</i>. (Brains, tools, innovation and Biogeography in Crows and Ravens). 2012</figcaption>
             </figure>
 
             <p>
-              Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores
-              alias consequatur aut perferendis doloribus asperiores repellat.
+              Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
+              consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
             </p>
           </section>
 
-          <section id="discussion" class="fade">
-            <span class="section-num">04</span>
-            <h2>Discussion</h2>
+          <section id="this-version" class="fade">
+            <span class="section-num">&ndash;</span>
+            <h2>About this version</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-              labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-              laboris nisi ut aliquip ex ea commodo consequat <a href="#references">[2]</a>.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+              ut labore et dolore magna aliqua.
             </p>
-            <p>
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-              mollit anim id est laborum.
-            </p>
+
+            <figure class="media figure">
+              <div class="media-frame" style="--ratio: 2000 / 1334;">
+                <div class="media-inner">
+                  <img src="images/projects/corvid-biogeography/poster.jpg"
+                       alt="The original poster, Unravelling the Biogeography of Corvus"
+                       loading="lazy" onerror="this.classList.add('is-missing')">
+                </div>
+                <span class="media-label">poster.jpg</span>
+              </div>
+              <figcaption><b>Original poster.</b> BIOL 351 – Global Biogeography, Capilano University, 2023.</figcaption>
+            </figure>
           </section>
 
           <section id="references" class="references fade">
             <span class="section-num">References</span>
             <ol>
-              <li>Lorem, I. &amp; Dolor, S. (20XX). Lorem ipsum dolor sit amet, consectetur adipiscing elit. <i>Journal of Lorem Ipsum</i>, 00, 000–000.</li>
-              <li>Amet, C. (20XX). Sed do eiusmod tempor incididunt ut labore. <i>Dolor Magna Aliqua</i>, 00, 000–000.</li>
+              <li>Jønsson, K. A., Fabre, P.-H., &amp; Irestedt, M. (2012). Brains, tools, innovation and Biogeography in Crows and Ravens. <i>BMC Evolutionary Biology</i>, <i>12</i>(1), 72. <a href="https://doi.org/10.1186/1471-2148-12-72" target="_blank" rel="noopener">https://doi.org/10.1186/1471-2148-12-72</a></li>
+              <li>Garcia-Porta, J., Sol, D., Pennell, M. et al. (2022). Niche expansion and adaptive divergence in the global radiation of crows and ravens. <i>Nature Communications,</i> 13, 2086. <a href="https://doi.org/10.1038/s41467-022-29707-5" target="_blank" rel="noopener">https://doi.org/10.1038/s41467-022-29707-5</a></li>
+              <li>E. Haring, A. Gamauf, A. Kryukov. (2007). Phylogeographic patterns in widespread corvid birds. <i>Molecular Phylogenetics and Evolution, 45(3)</i>. 840-862. <a href="https://doi.org/10.1016/j.ympev.2007.06.016" target="_blank" rel="noopener">https://doi.org/10.1016/j.ympev.2007.06.016</a></li>
+              <li>Ryall, C. (2009, July 16). <i>Corvus splendens (house crow)</i>. https://www.cabidigitallibrary.org/. <a href="https://doi.org/10.1079/cabicompendium.15463" target="_blank" rel="noopener">https://doi.org/10.1079/cabicompendium.15463</a></li>
             </ol>
           </section>
 
@@ -266,11 +280,8 @@
   <footer class="footer">
     <p>&copy; <span id="year">2026</span> Ryan Donald</p>
     <ul class="footer-links">
-      <!-- GitHub: hidden for now. Remove the comment markers to show it
+      <!-- GitHub link (not shown yet)
       <li><a href="https://github.com/rdonald03" target="_blank" rel="noopener">GitHub</a></li>
-      -->
-      <!-- LinkedIn: add your profile link and remove the comment markers to show it
-      <li><a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener">LinkedIn</a></li>
       -->
       <li><a href="mailto:ryandonaldrjd@gmail.com">Email</a></li>
     </ul>

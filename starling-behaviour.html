@@ -59,9 +59,7 @@
             <svg class="nav-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
           </button>
 
-          <!-- Projects drop-down. TO ADD A PROJECT: copy one <li> ... </li> block below, paste it
-               after the last one, and change the number, short title, full name and link.
-               (The menu is on every page, so add it to each one.) -->
+          <!-- Projects drop-down -->
           <div class="dropdown" id="projects-menu">
             <div class="dropdown-panel">
               <ul class="dropdown-list">
@@ -78,8 +76,8 @@
                   <a class="dropdown-item" href="/corvid-biogeography">
                     <span class="dropdown-num">02</span>
                     <span>
-                      <span class="dropdown-title">Corvid Biogeography</span>
-                      <span class="dropdown-desc">Unraveling the Biogeography of Corvids</span>
+                      <span class="dropdown-title"><i>Corvus</i> Biogeography</span>
+                      <span class="dropdown-desc">Unravelling the Biogeography of <i>Corvus</i></span>
                     </span>
                   </a>
                 </li>
@@ -101,15 +99,7 @@
     </div>
   </header>
 
-  <!-- ============ CONTENT ============
-       HOW TO FILL THIS PAGE IN
-       - Key facts: edit the <dt> labels and <dd> values below (delete any row you don't need).
-       - Text: replace the Lorem ipsum. Each <section> is one numbered part of the write-up.
-         If you add, remove or rename a section, update the Contents list to match
-         (each link's href="#..." must match its section's id="...").
-       - Images go in images/projects/starling-behaviour/ (fig-01.jpg, fig-02.jpg, ...).
-         Each placeholder shows its file name and shape. Edit alt="..." to describe each image.
-       - Figure and table captions sit under each one; keep the numbering in order. -->
+  <!-- ============ CONTENT ============ -->
   <main>
     <div class="wrap">
 
@@ -120,16 +110,13 @@
         <div><dt>Institution</dt><dd>Lorem ipsum University</dd></div>
         <div><dt>Methods</dt><dd>Lorem ipsum, dolor sit, amet consectetur</dd></div>
         <div><dt>Tools</dt><dd>Lorem · Ipsum · Dolor</dd></div>
-        <!-- Links row: put in your paper / code links and remove the comment markers to show it
-        <div><dt>Links</dt><dd><a href="PAPER-LINK">Paper</a> · <a href="CODE-LINK">Code</a></dd></div>
-        -->
       </dl>
 
       <!-- Large opening image -->
       <figure class="media lead-figure figure fade">
         <div class="media-frame" style="--tone: linear-gradient(160deg, #46404f, #1c1a22);">
           <div class="media-inner">
-            <img src="images/projects/starling-behaviour/fig-01.jpg" alt="Figure 1 (replace with a short description)"
+            <img src="images/projects/starling-behaviour/fig-01.jpg" alt="Figure 1"
                  onerror="this.classList.add('is-missing')">
           </div>
           <span class="media-label">fig-01.jpg · 21:9 (16:9 on phones)</span>
@@ -219,7 +206,7 @@
             <figure class="media figure">
               <div class="media-frame" style="--ratio: 4 / 3; --tone: linear-gradient(160deg, #3d4a45, #191d1b);">
                 <div class="media-inner">
-                  <img src="images/projects/starling-behaviour/fig-02.jpg" alt="Figure 2 (replace with a short description)"
+                  <img src="images/projects/starling-behaviour/fig-02.jpg" alt="Figure 2"
                        loading="lazy" onerror="this.classList.add('is-missing')">
                 </div>
                 <span class="media-label">fig-02.jpg · 4:3</span>
@@ -259,14 +246,14 @@
               <div class="figure-pair">
                 <div class="media-frame" style="--ratio: 1 / 1; --tone: linear-gradient(160deg, #4a3f55, #1d1a22);">
                   <div class="media-inner">
-                    <img src="images/projects/starling-behaviour/fig-03a.jpg" alt="Figure 3a (replace with a short description)"
+                    <img src="images/projects/starling-behaviour/fig-03a.jpg" alt="Figure 3a"
                          loading="lazy" onerror="this.classList.add('is-missing')">
                   </div>
                   <span class="media-label">fig-03a.jpg · 1:1</span>
                 </div>
                 <div class="media-frame" style="--ratio: 1 / 1; --tone: linear-gradient(160deg, #3d4a45, #191d1b);">
                   <div class="media-inner">
-                    <img src="images/projects/starling-behaviour/fig-03b.jpg" alt="Figure 3b (replace with a short description)"
+                    <img src="images/projects/starling-behaviour/fig-03b.jpg" alt="Figure 3b"
                          loading="lazy" onerror="this.classList.add('is-missing')">
                   </div>
                   <span class="media-label">fig-03b.jpg · 1:1</span>
@@ -304,7 +291,6 @@
               </ol>
             </div>
 
-            <!-- Table: replace the sample rows and 0.00 values with your own results -->
             <div class="table-wrap">
               <table>
                 <caption><b>Table 1.</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</caption>
@@ -334,7 +320,7 @@
             <figure class="media figure">
               <div class="media-frame" style="--ratio: 16 / 9; --tone: linear-gradient(160deg, #4a4538, #1e1c17);">
                 <div class="media-inner">
-                  <img src="images/projects/starling-behaviour/fig-04.jpg" alt="Figure 4 (replace with a short description)"
+                  <img src="images/projects/starling-behaviour/fig-04.jpg" alt="Figure 4"
                        loading="lazy" onerror="this.classList.add('is-missing')">
                 </div>
                 <span class="media-label">fig-04.jpg · 16:9</span>
@@ -405,7 +391,7 @@
         </a>
         <a class="pager-link" href="/corvid-biogeography">
           <span class="pager-label">Next project &rarr;</span>
-          <span class="pager-title">Corvid Biogeography</span>
+          <span class="pager-title"><i>Corvus</i> Biogeography</span>
         </a>
       </nav>
 
@@ -416,11 +402,8 @@
   <footer class="footer">
     <p>&copy; <span id="year">2026</span> Ryan Donald</p>
     <ul class="footer-links">
-      <!-- GitHub: hidden for now. Remove the comment markers to show it
+      <!-- GitHub link (not shown yet)
       <li><a href="https://github.com/rdonald03" target="_blank" rel="noopener">GitHub</a></li>
-      -->
-      <!-- LinkedIn: add your profile link and remove the comment markers to show it
-      <li><a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener">LinkedIn</a></li>
       -->
       <li><a href="mailto:ryandonaldrjd@gmail.com">Email</a></li>
     </ul>
