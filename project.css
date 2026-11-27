@@ -17,6 +17,7 @@ main { flex: 1; }
 .wrap {
   width: 100%;
   padding-inline: var(--page-x);
+  container-type: inline-size;   /* lets figures inside measure the full content width (cqw units) */
 }
 
 /* Project pages use a slightly smaller page title than Home / About */
@@ -208,7 +209,8 @@ main { flex: 1; }
 .project-layout {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: clamp(1rem, 2.5vw, 2rem);
+  --col-gap: clamp(1rem, 2.5vw, 2rem);
+  column-gap: var(--col-gap);
   row-gap: 2.5rem;
   padding-block: clamp(3rem, 9vh, 6rem);
 }
@@ -343,6 +345,27 @@ main { flex: 1; }
 
 /* A low-resolution figure: kept small so it stays sharp */
 .figure-small { max-width: 30rem; }
+
+/* A figure in the text column shown at the same size and position as a poster cover
+   (.lead-poster): up to 60rem wide and centred on the page */
+.figure.figure-match-cover {
+  max-width: 60rem;
+  margin-inline: auto;
+}
+
+@media (min-width: 1000px) {
+  /* The text column starts after 3 of the 12 grid columns; move the figure back by that much
+     so it is centred on the whole page rather than on the text column */
+  .figure.figure-match-cover {
+    width: min(60rem, 100cqw);
+    max-width: none;
+    margin-left: calc(
+      (100cqw - min(60rem, 100cqw)) / 2
+      - 3 * (100cqw - 11 * var(--col-gap)) / 12
+      - 3 * var(--col-gap)
+    );
+  }
+}
 
 /* Two images side by side, sharing one caption */
 .figure-pair {
