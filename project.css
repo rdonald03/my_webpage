@@ -1,6 +1,6 @@
 /* =========================================================================
    PROJECT STYLES — shared by projects.html (the "All projects" page) and every
-   individual project page (starling-behaviour.html, corvid-biogeography.html, ...).
+   individual project page (starling-behaviour.html, corvus-biogeography.html, ...).
    Loaded after styles.css.
    ========================================================================= */
 
@@ -198,6 +198,12 @@ main { flex: 1; }
 .figure.lead-figure { margin: 0; padding-top: clamp(2.5rem, 7vh, 4.5rem); }
 .lead-figure .media-frame { --ratio: 21 / 9; }
 
+/* Opening image that is a poster: smaller and centred, so the page doesn't open on one huge image */
+.figure.lead-figure.lead-poster {
+  max-width: 60rem;
+  margin-inline: auto;
+}
+
 /* ---------- Contents on the left, the write-up on the right ---------- */
 .project-layout {
   display: grid;
@@ -334,6 +340,9 @@ main { flex: 1; }
 
 /* A tall or square figure: kept narrower so it doesn't fill the whole screen height */
 .figure-narrow { max-width: 40rem; }
+
+/* A low-resolution figure: kept small so it stays sharp */
+.figure-small { max-width: 30rem; }
 
 /* Two images side by side, sharing one caption */
 .figure-pair {
