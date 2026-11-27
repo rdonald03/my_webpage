@@ -7,6 +7,7 @@
 :root {
   --radius: 3px;          /* image corner rounding (matches the homepage photos) */
   --measure: 68ch;        /* longest comfortable line of text for reading */
+  --poster-width: 72rem;  /* width of posters shown on project pages */
 }
 
 html { scroll-behavior: smooth; }   /* clicking a contents link glides to that section */
@@ -201,7 +202,7 @@ main { flex: 1; }
 
 /* Opening image that is a poster: smaller and centred, so the page doesn't open on one huge image */
 .figure.lead-figure.lead-poster {
-  max-width: 60rem;
+  max-width: var(--poster-width);
   margin-inline: auto;
 }
 
@@ -347,9 +348,9 @@ main { flex: 1; }
 .figure-small { max-width: 30rem; }
 
 /* A figure in the text column shown at the same size and position as a poster cover
-   (.lead-poster): up to 60rem wide and centred on the page */
+   (.lead-poster): same width and centred on the page */
 .figure.figure-match-cover {
-  max-width: 60rem;
+  max-width: var(--poster-width);
   margin-inline: auto;
 }
 
@@ -357,10 +358,10 @@ main { flex: 1; }
   /* The text column starts after 3 of the 12 grid columns; move the figure back by that much
      so it is centred on the whole page rather than on the text column */
   .figure.figure-match-cover {
-    width: min(60rem, 100cqw);
+    width: min(var(--poster-width), 100cqw);
     max-width: none;
     margin-left: calc(
-      (100cqw - min(60rem, 100cqw)) / 2
+      (100cqw - min(var(--poster-width), 100cqw)) / 2
       - 3 * (100cqw - 11 * var(--col-gap)) / 12
       - 3 * var(--col-gap)
     );
